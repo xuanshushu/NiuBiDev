@@ -1,0 +1,3 @@
+[submodule "GitRepo/NBShaders"]
+	path = GitRepo/NBShaders
+	url = https://github.com/xuanshushu/NBShaders.git
