@@ -1,3 +1,7 @@
 [submodule "GitRepo/NBShaders"]
 	path = GitRepo/NBShaders
 	url = https://github.com/xuanshushu/NBShaders.git
+[submodule "GitRepo/XuanXuanRenderUtility"]
+	path = GitRepo/XuanXuanRenderUtility
+	url = https://github.com/xuanshushu/XuanXuanRenderUtility.git
+	branch = main
