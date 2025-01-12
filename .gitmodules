@@ -5,3 +5,6 @@
 	path = GitRepo/XuanXuanRenderUtility
 	url = https://github.com/xuanshushu/XuanXuanRenderUtility.git
 	branch = main
+[submodule "GitRepo/NBPostProcessing"]
+	path = GitRepo/NBPostProcessing
+	url = https://github.com/xuanshushu/NBPostProcessing.git
