@@ -144,6 +144,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.xuanxuan.render.utility": {
+      "version": "file:D:/UnityProject/NiuBiDev/GitRepo/XuanXuanRenderUtility",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
