@@ -146,10 +146,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints:
     - _UVModeFlag0: 0
-    - _W9ParticleCustomDataFlag0: 255
+    - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 131080
+    - _W9ParticleShaderFlags: 8
     - _W9ParticleShaderFlags1: 8388608
     - _W9ParticleShaderGUIFoldToggle: 2079
     - _W9ParticleShaderGUIFoldToggle1: 8388863
@@ -163,7 +163,7 @@ Material:
     - _BackFristPassToggle: 0
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
-    - _BaseMapUVRotation: 0
+    - _BaseMapUVRotation: 135
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -294,7 +294,7 @@ Material:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseMapMaskMapOffset: {r: 0.4, g: 0.69, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
