@@ -210,7 +210,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "3d66d0f157e76e31b315547285a30244318ec52a"
+      "hash": "25a5586d60bfbde89d6a20a6eb833f67a996dad7"
     },
     "com.xuanxuan.render.utility": {
       "version": "https://github.com/xuanshushu/XuanXuanRenderUtility.git",
