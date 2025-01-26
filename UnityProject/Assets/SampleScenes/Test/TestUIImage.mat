@@ -20,18 +20,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NBTestMat
+  m_Name: TestUIImage
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3100
+  m_CustomRenderQueue: 2450
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -149,8 +150,8 @@ Material:
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 8
-    - _W9ParticleShaderFlags1: 8388608
+    - _W9ParticleShaderFlags: 16392
+    - _W9ParticleShaderFlags1: 0
     - _W9ParticleShaderGUIFoldToggle: 2079
     - _W9ParticleShaderGUIFoldToggle1: 8388863
     - _W9ParticleShaderWrapFlags: 0
@@ -164,7 +165,7 @@ Material:
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
     - _BaseMapUVRotation: 135
-    - _Blend: 0
+    - _Blend: 4
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -205,7 +206,7 @@ Material:
     - _DistortionBothDirection_Toggle: 0
     - _Distortion_Choraticaberrat_Toggle: 0
     - _Distortion_Choraticaberrat_WithNoise_Toggle: 1
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EdgeFade: 0.05
     - _Emi_Distortion_intensity: 0
@@ -238,7 +239,7 @@ Material:
     - _MaskMapUVRotation: 0
     - _Mask_RotationToggle: 0
     - _Mask_Toggle: 0
-    - _MeshSourceMode: 0
+    - _MeshSourceMode: 2
     - _Metallic: 0
     - _Mode: 0
     - _NoiseMapUVRotation: 0
@@ -260,7 +261,7 @@ Material:
     - _SoftParticlesEnabled: 0
     - _SpecialUVChannelMode: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -271,7 +272,7 @@ Material:
     - _TWStrength: 0
     - _TexDistortion_intensity: 0.5
     - _TimeMode: 0
-    - _TransparentMode: 1
+    - _TransparentMode: 2
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
@@ -281,8 +282,8 @@ Material:
     - _XianXingCH_UVRota: 0
     - _ZOffset_Toggle: 0
     - _ZTest: 4
-    - _ZWrite: 0
-    - _fogintensity: 1
+    - _ZWrite: 1
+    - _fogintensity: 0
     - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
     - _noiseMaskMap_Toggle: 0
