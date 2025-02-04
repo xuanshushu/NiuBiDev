@@ -24,15 +24,14 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHATEST_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3100
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -42,8 +41,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 8ba0cb49579a54b4a8c837d0bb135e02, type: 3}
-        m_Scale: {x: 1.78, y: 3.22}
+        m_Texture: {fileID: 2800000, guid: a1e90d06dd6fd1344a78ec3b1ab9045d, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -165,7 +164,7 @@ Material:
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
     - _BaseMapUVRotation: 0
-    - _Blend: 4
+    - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -206,7 +205,7 @@ Material:
     - _DistortionBothDirection_Toggle: 0
     - _Distortion_Choraticaberrat_Toggle: 0
     - _Distortion_Choraticaberrat_WithNoise_Toggle: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _DstBlendAlpha: 0
     - _EdgeFade: 0.05
     - _Emi_Distortion_intensity: 0
@@ -261,7 +260,7 @@ Material:
     - _SoftParticlesEnabled: 0
     - _SpecialUVChannelMode: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -272,7 +271,7 @@ Material:
     - _TWStrength: 0
     - _TexDistortion_intensity: 0.5
     - _TimeMode: 0
-    - _TransparentMode: 2
+    - _TransparentMode: 1
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
@@ -282,7 +281,7 @@ Material:
     - _XianXingCH_UVRota: 0
     - _ZOffset_Toggle: 0
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _fogintensity: 0
     - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
