@@ -41,8 +41,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: a1e90d06dd6fd1344a78ec3b1ab9045d, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 8e498f89c5ad8a94785a0ba91ba207d4, type: 3}
+        m_Scale: {x: 1, y: 3}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -89,8 +89,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 3c38f66f87484c74dbed606f2ff9dda1, type: 3}
+        m_Scale: {x: 1, y: 0.98}
         m_Offset: {x: 0, y: 0}
     - _MaskMap2:
         m_Texture: {fileID: 0}
@@ -145,15 +145,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _UVModeFlag0: 0
+    - _UVModeFlag0: 10
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 8
+    - _W9ParticleShaderFlags: 264
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 2079
+    - _W9ParticleShaderGUIFoldToggle: 40575
     - _W9ParticleShaderGUIFoldToggle1: 8388863
-    - _W9ParticleShaderWrapFlags: 65537
+    - _W9ParticleShaderWrapFlags: 2
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaAll: 1
@@ -163,7 +163,7 @@ Material:
     - _BackFristPassToggle: 0
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
-    - _BaseMapUVRotation: 0
+    - _BaseMapUVRotation: 90
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -246,7 +246,7 @@ Material:
     - _Parallax: 0.005
     - _ParallaxMapping_Intensity: 1
     - _ParallaxMapping_Toggle: 0
-    - _PolarCoordinatesEnabled: 0
+    - _PolarCoordinatesEnabled: 1
     - _PolarCordinateOnlySpecialFunciton_Toggle: 0
     - _Portal_MaskToggle: 0
     - _Portal_Toggle: 0
@@ -292,9 +292,9 @@ Material:
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 3.4415908, g: 3.4415908, b: 3.4415908, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseMapMaskMapOffset: {r: 0.6, g: 0.57, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
