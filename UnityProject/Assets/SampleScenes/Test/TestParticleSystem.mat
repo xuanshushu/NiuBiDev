@@ -24,7 +24,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SOFTPARTICLES_ON
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -42,7 +43,7 @@ Material:
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 8e498f89c5ad8a94785a0ba91ba207d4, type: 3}
-        m_Scale: {x: 1, y: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -145,15 +146,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _UVModeFlag0: 10
+    - _UVModeFlag0: 8
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 264
+    - _W9ParticleShaderFlags: 524552
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 40575
+    - _W9ParticleShaderGUIFoldToggle: 249375
     - _W9ParticleShaderGUIFoldToggle1: 8388863
-    - _W9ParticleShaderWrapFlags: 2
+    - _W9ParticleShaderWrapFlags: 65538
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaAll: 1
@@ -163,7 +164,7 @@ Material:
     - _BackFristPassToggle: 0
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
-    - _BaseMapUVRotation: 90
+    - _BaseMapUVRotation: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -226,7 +227,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HueShift: 0
-    - _HueShift_Toggle: 0
+    - _HueShift_Toggle: 1
     - _IgnoreVetexColor_Toggle: 0
     - _IntersectEnabled: 0
     - _IntersectRadius: 0.3
@@ -253,11 +254,11 @@ Material:
     - _QueueBias: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Saturability: 0
+    - _Saturability: 1
     - _ScreenDistortModeToggle: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _SoftParticlesEnabled: 0
+    - _SoftParticlesEnabled: 1
     - _SpecialUVChannelMode: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -268,7 +269,7 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _Surface: 0
-    - _TWStrength: 0
+    - _TWStrength: 12.6
     - _TexDistortion_intensity: 0.5
     - _TimeMode: 0
     - _TransparentMode: 1
@@ -291,10 +292,10 @@ Material:
     - _offsetUnits: 0
     - _uvRapSoft: 0
     m_Colors:
-    - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 3.4415908, g: 3.4415908, b: 3.4415908, a: 1}
+    - _BaseBackColor: {r: 0, g: 2.297397, b: 0.5259124, a: 1}
+    - _BaseColor: {r: 4.867144, g: 1.6155428, b: 0.9412873, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMapMaskMapOffset: {r: 0.6, g: 0.57, b: 0, a: 0}
+    - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
@@ -321,7 +322,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionMapUVOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _Fade: {r: 2, g: 4, b: 0, a: 0}
+    - _Fade: {r: 0.51, g: 1.47, b: 0, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelRotation: {r: 0, g: 0, b: 0, a: 0.5}
     - _FresnelUnit: {r: 0, g: 0.5, b: 1, a: 0.5}
@@ -333,7 +334,7 @@ Material:
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
-    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 0.15, g: 0.94, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
