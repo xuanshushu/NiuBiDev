@@ -25,6 +25,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _NOISEMAP
+  - _SCREEN_DISTORT_MODE
   - _SOFTPARTICLES_ON
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
@@ -106,7 +108,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f85f79ebdf2cc40348f17f179fbe2bc8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMaskMap:
@@ -152,9 +154,9 @@ Material:
     - _W9ParticleCustomDataFlag2: 0
     - _W9ParticleShaderFlags: 524552
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 249375
+    - _W9ParticleShaderGUIFoldToggle: 257567
     - _W9ParticleShaderGUIFoldToggle1: 8388863
-    - _W9ParticleShaderWrapFlags: 65538
+    - _W9ParticleShaderWrapFlags: 65539
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaAll: 1
@@ -283,11 +285,11 @@ Material:
     - _ZOffset_Toggle: 0
     - _ZTest: 4
     - _ZWrite: 0
-    - _fogintensity: 0
+    - _fogintensity: 0.084
     - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
     - _noiseMaskMap_Toggle: 0
-    - _noisemapEnabled: 0
+    - _noisemapEnabled: 1
     - _offsetFactor: 0
     - _offsetUnits: 0
     - _uvRapSoft: 0
