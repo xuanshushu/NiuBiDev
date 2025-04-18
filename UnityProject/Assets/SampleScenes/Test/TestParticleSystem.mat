@@ -25,9 +25,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _NOISEMAP
-  - _SCREEN_DISTORT_MODE
-  - _SOFTPARTICLES_ON
+  - _MASKMAP_ON
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -44,7 +42,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 8e498f89c5ad8a94785a0ba91ba207d4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ba0cb49579a54b4a8c837d0bb135e02, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -93,7 +91,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
         m_Texture: {fileID: 2800000, guid: 3c38f66f87484c74dbed606f2ff9dda1, type: 3}
-        m_Scale: {x: 1, y: 0.98}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap2:
         m_Texture: {fileID: 0}
@@ -112,7 +110,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseMaskMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f85f79ebdf2cc40348f17f179fbe2bc8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -152,11 +150,11 @@ Material:
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 524552
-    - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 257567
+    - _W9ParticleShaderFlags: 524424
+    - _W9ParticleShaderFlags1: 8409088
+    - _W9ParticleShaderGUIFoldToggle: 520191
     - _W9ParticleShaderGUIFoldToggle1: 8388863
-    - _W9ParticleShaderWrapFlags: 65539
+    - _W9ParticleShaderWrapFlags: 1
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaAll: 1
@@ -234,13 +232,13 @@ Material:
     - _IntersectEnabled: 0
     - _IntersectRadius: 0.3
     - _InvertFresnel_Toggle: 0
-    - _Mask2_Toggle: 0
+    - _Mask2_Toggle: 1
     - _Mask3_Toggle: 0
     - _MaskDistortion_intensity: 0
-    - _MaskMapRotationSpeed: 0
-    - _MaskMapUVRotation: 0
-    - _Mask_RotationToggle: 0
-    - _Mask_Toggle: 0
+    - _MaskMapRotationSpeed: 280.65
+    - _MaskMapUVRotation: 83.78
+    - _Mask_RotationToggle: 1
+    - _Mask_Toggle: 1
     - _MeshSourceMode: 0
     - _Metallic: 0
     - _Mode: 0
@@ -249,7 +247,7 @@ Material:
     - _Parallax: 0.005
     - _ParallaxMapping_Intensity: 1
     - _ParallaxMapping_Toggle: 0
-    - _PolarCoordinatesEnabled: 1
+    - _PolarCoordinatesEnabled: 0
     - _PolarCordinateOnlySpecialFunciton_Toggle: 0
     - _Portal_MaskToggle: 0
     - _Portal_Toggle: 0
@@ -260,7 +258,7 @@ Material:
     - _ScreenDistortModeToggle: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _SoftParticlesEnabled: 1
+    - _SoftParticlesEnabled: 0
     - _SpecialUVChannelMode: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -271,8 +269,8 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _Surface: 0
-    - _TWStrength: 12.6
-    - _TexDistortion_intensity: 0.5
+    - _TWStrength: 9.04
+    - _TexDistortion_intensity: 0
     - _TimeMode: 0
     - _TransparentMode: 1
     - _UIEffect_Toggle: 0
@@ -285,17 +283,17 @@ Material:
     - _ZOffset_Toggle: 0
     - _ZTest: 4
     - _ZWrite: 0
-    - _fogintensity: 0.084
+    - _fogintensity: 0
     - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
-    - _noiseMaskMap_Toggle: 0
-    - _noisemapEnabled: 1
+    - _noiseMaskMap_Toggle: 1
+    - _noisemapEnabled: 0
     - _offsetFactor: 0
     - _offsetUnits: 0
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 0, g: 2.297397, b: 0.5259124, a: 1}
-    - _BaseColor: {r: 4.867144, g: 1.6155428, b: 0.9412873, a: 1}
+    - _BaseColor: {r: 2, g: 2, b: 2, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
@@ -333,7 +331,7 @@ Material:
     - _MainTex_Reverse_ST: {r: 1, g: 1, b: 0, a: 0}
     - _MaskMap3OffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapOffsetAnition: {r: 0, g: 0, b: 0, a: 0}
-    - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
+    - _MaskMapVec: {r: 2.62, g: 0, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
     - _SoftParticleFadeParams: {r: 0.15, g: 0.94, b: 0, a: 0}
