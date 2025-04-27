@@ -24,8 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _COLORMAPBLEND
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -150,9 +149,9 @@ Material:
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 134744202
+    - _W9ParticleShaderFlags: 134742154
     - _W9ParticleShaderFlags1: 8394752
-    - _W9ParticleShaderGUIFoldToggle: 524453855
+    - _W9ParticleShaderGUIFoldToggle: 54691807
     - _W9ParticleShaderGUIFoldToggle1: 766
     - _W9ParticleShaderWrapFlags: 4194433
     m_Floats:
@@ -175,7 +174,7 @@ Material:
     - _ChangeSaturability_Toggle: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorBlendMap_Toggle: 1
+    - _ColorBlendMap_Toggle: 0
     - _ColorMask: 15
     - _ColorMode: 0
     - _Cull: 2
@@ -284,7 +283,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _fogintensity: 0
-    - _fresnelEnabled: 1
+    - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
     - _noiseMaskMap_Toggle: 0
     - _noisemapEnabled: 0
