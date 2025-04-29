@@ -25,7 +25,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _MASKMAP_ON
   - _NOISEMAP
   - _SCREEN_DISTORT_MODE
   m_InvalidKeywords:
@@ -240,7 +239,7 @@ Material:
     - _MaskMapRotationSpeed: 0
     - _MaskMapUVRotation: 0
     - _Mask_RotationToggle: 0
-    - _Mask_Toggle: 1
+    - _Mask_Toggle: 0
     - _MeshSourceMode: 0
     - _Metallic: 0
     - _Mode: 0
@@ -272,7 +271,7 @@ Material:
     - _StencilWriteMask: 255
     - _Surface: 0
     - _TWStrength: 9.04
-    - _TexDistortion_intensity: 0.335
+    - _TexDistortion_intensity: 0.205
     - _TimeMode: 0
     - _TransparentMode: 1
     - _UIEffect_Toggle: 0
