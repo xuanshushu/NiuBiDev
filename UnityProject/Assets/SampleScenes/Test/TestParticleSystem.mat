@@ -22,8 +22,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestParticleSystem
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _NOISEMAP
   - _SCREEN_DISTORT_MODE
@@ -38,7 +36,6 @@ Material:
   disabledShaderPasses:
   - MOTIONVECTORS
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -153,7 +150,7 @@ Material:
     - _W9ParticleCustomDataFlag2: 0
     - _W9ParticleShaderFlags: 134746378
     - _W9ParticleShaderFlags1: 8390656
-    - _W9ParticleShaderGUIFoldToggle: 54724607
+    - _W9ParticleShaderGUIFoldToggle: 54726655
     - _W9ParticleShaderGUIFoldToggle1: 766
     - _W9ParticleShaderWrapFlags: 4194433
     m_Floats:
@@ -271,7 +268,7 @@ Material:
     - _StencilWriteMask: 255
     - _Surface: 0
     - _TWStrength: 9.04
-    - _TexDistortion_intensity: 0.205
+    - _TexDistortion_intensity: -0.439
     - _TimeMode: 0
     - _TransparentMode: 1
     - _UIEffect_Toggle: 0
@@ -342,4 +339,3 @@ Material:
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1

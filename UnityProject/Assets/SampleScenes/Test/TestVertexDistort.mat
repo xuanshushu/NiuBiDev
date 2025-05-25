@@ -24,7 +24,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MASKMAP_ON
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -146,10 +147,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints:
     - _UVModeFlag0: 2097162
-    - _W9ParticleCustomDataFlag0: 0
+    - _W9ParticleCustomDataFlag0: 983040
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 264
+    - _W9ParticleShaderFlags: 131336
     - _W9ParticleShaderFlags1: 8388608
     - _W9ParticleShaderGUIFoldToggle: 536872575
     - _W9ParticleShaderGUIFoldToggle1: 1279
@@ -237,7 +238,7 @@ Material:
     - _MaskMapRotationSpeed: 0
     - _MaskMapUVRotation: 0
     - _Mask_RotationToggle: 0
-    - _Mask_Toggle: 0
+    - _Mask_Toggle: 1
     - _MeshSourceMode: 0
     - _Metallic: 0
     - _Mode: 0
