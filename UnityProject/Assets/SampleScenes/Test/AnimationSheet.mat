@@ -147,12 +147,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints:
     - _UVModeFlag0: 0
-    - _W9ParticleCustomDataFlag0: 175
+    - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
-    - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 1179656
+    - _W9ParticleCustomDataFlag2: 251658240
+    - _W9ParticleShaderFlags: 131080
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 127
+    - _W9ParticleShaderGUIFoldToggle: -2147481473
     - _W9ParticleShaderGUIFoldToggle1: 14680319
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
@@ -178,6 +178,8 @@ Material:
     - _ColorBlendMap_Toggle: 0
     - _ColorMask: 15
     - _ColorMode: 0
+    - _Contrast: 1
+    - _Contrast_Toggle: 0
     - _Cull: 2
     - _CustomData: 0
     - _CustomData1W_HueShift_Toggle: 0
@@ -226,7 +228,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HueShift: 0
+    - _HueShift: 0.323
     - _HueShift_Toggle: 0
     - _IgnoreVetexColor_Toggle: 0
     - _IntersectEnabled: 0
@@ -277,6 +279,7 @@ Material:
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
+    - _VertexOffset_StartFromZero: 0
     - _VertexOffset_Toggle: 0
     - _WorkflowMode: 1
     - _XianXingCH_UVRota: 0

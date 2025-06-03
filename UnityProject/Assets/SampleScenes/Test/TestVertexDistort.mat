@@ -24,8 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _MASKMAP_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -146,13 +145,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
-    - _UVModeFlag0: 2097162
+    - _UVModeFlag0: 10
     - _W9ParticleCustomDataFlag0: 983040
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 131336
-    - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 536872575
+    - _W9ParticleShaderFlags: 1074397449
+    - _W9ParticleShaderFlags1: 58720256
+    - _W9ParticleShaderGUIFoldToggle: 536878719
     - _W9ParticleShaderGUIFoldToggle1: 1279
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
@@ -172,12 +171,14 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _Chachu: 0
-    - _ChangeSaturability_Toggle: 0
+    - _ChangeSaturability_Toggle: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorBlendMap_Toggle: 0
     - _ColorMask: 15
     - _ColorMode: 0
+    - _Contrast: 1
+    - _Contrast_Toggle: 1
     - _Cull: 2
     - _CustomData: 0
     - _CustomData1W_HueShift_Toggle: 0
@@ -227,7 +228,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HueShift: 0
-    - _HueShift_Toggle: 0
+    - _HueShift_Toggle: 1
     - _IgnoreVetexColor_Toggle: 0
     - _IntersectEnabled: 0
     - _IntersectRadius: 0.3
@@ -238,7 +239,7 @@ Material:
     - _MaskMapRotationSpeed: 0
     - _MaskMapUVRotation: 0
     - _Mask_RotationToggle: 0
-    - _Mask_Toggle: 1
+    - _Mask_Toggle: 0
     - _MeshSourceMode: 0
     - _Metallic: 0
     - _Mode: 0
@@ -254,7 +255,7 @@ Material:
     - _QueueBias: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Saturability: 0
+    - _Saturability: 1
     - _ScreenDistortModeToggle: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -277,7 +278,8 @@ Material:
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
-    - _VertexOffset_Toggle: 0
+    - _VertexOffset_StartFromZero: 1
+    - _VertexOffset_Toggle: 1
     - _WorkflowMode: 1
     - _XianXingCH_UVRota: 0
     - _ZOffset_Toggle: 0
@@ -295,7 +297,7 @@ Material:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseMapMaskMapOffset: {r: 0.6, g: 0.09, b: 0, a: 0}
+    - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
@@ -338,7 +340,6 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _VertexOffset_CustomDir: {r: 0, g: 1, b: 0, a: 0}
-    - _VertexOffset_Vec: {r: 0, g: 0.44, b: 0.1, a: 0}
+    - _VertexOffset_CustomDir: {r: 1, g: 0, b: 0, a: 0}
+    - _VertexOffset_Vec: {r: 0, g: 0, b: 3.43, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
