@@ -22,8 +22,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Portal_Inner
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
@@ -36,7 +34,6 @@ Material:
   disabledShaderPasses:
   - MOTIONVECTORS
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -152,7 +149,7 @@ Material:
     - _W9ParticleShaderFlags: 8
     - _W9ParticleShaderFlags1: 8388608
     - _W9ParticleShaderGUIFoldToggle: 31
-    - _W9ParticleShaderGUIFoldToggle1: 1048831
+    - _W9ParticleShaderGUIFoldToggle1: 13631743
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
     - _AddPrecomputedVelocity: 0
@@ -292,7 +289,7 @@ Material:
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 0, b: 0, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
@@ -340,4 +337,3 @@ Material:
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1

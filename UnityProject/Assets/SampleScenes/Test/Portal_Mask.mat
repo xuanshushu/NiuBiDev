@@ -22,22 +22,18 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Portal_Mask
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHATEST_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 2100
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -153,7 +149,7 @@ Material:
     - _W9ParticleShaderFlags: 8
     - _W9ParticleShaderFlags1: 8388608
     - _W9ParticleShaderGUIFoldToggle: 31
-    - _W9ParticleShaderGUIFoldToggle1: 1048831
+    - _W9ParticleShaderGUIFoldToggle1: 15728895
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
     - _AddPrecomputedVelocity: 0
@@ -272,7 +268,7 @@ Material:
     - _TWStrength: 0
     - _TexDistortion_intensity: 0.5
     - _TimeMode: 0
-    - _TransparentMode: 2
+    - _TransparentMode: 0
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
@@ -293,7 +289,7 @@ Material:
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
@@ -341,4 +337,3 @@ Material:
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1

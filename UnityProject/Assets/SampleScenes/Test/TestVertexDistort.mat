@@ -22,8 +22,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TestVertexDistort
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
@@ -36,7 +34,6 @@ Material:
   disabledShaderPasses:
   - MOTIONVECTORS
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -149,9 +146,9 @@ Material:
     - _W9ParticleCustomDataFlag0: 983040
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
-    - _W9ParticleShaderFlags: 1074397449
+    - _W9ParticleShaderFlags: 655625
     - _W9ParticleShaderFlags1: 58720256
-    - _W9ParticleShaderGUIFoldToggle: 536878719
+    - _W9ParticleShaderGUIFoldToggle: 1073749631
     - _W9ParticleShaderGUIFoldToggle1: 1279
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
@@ -279,7 +276,7 @@ Material:
     - _UseUV1_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
     - _VertexOffset_StartFromZero: 1
-    - _VertexOffset_Toggle: 1
+    - _VertexOffset_Toggle: 0
     - _WorkflowMode: 1
     - _XianXingCH_UVRota: 0
     - _ZOffset_Toggle: 0
