@@ -128,6 +128,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VertexOffset_MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -145,6 +149,7 @@ Material:
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
+    - _W9ParticleCustomDataFlag3: 0
     - _W9ParticleShaderFlags: 16392
     - _W9ParticleShaderFlags1: 0
     - _W9ParticleShaderGUIFoldToggle: 31
@@ -157,6 +162,7 @@ Material:
     - _BackFristPassToggle: 0
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
+    - _BaseMapColorRefine_Toggle: 0
     - _BaseMapUVRotation: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -268,6 +274,7 @@ Material:
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
+    - _VertexOffset_Mask_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
     - _VertexOffset_StartFromZero: 0
     - _VertexOffset_Toggle: 0
@@ -288,12 +295,14 @@ Material:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseMapColorRefine: {r: 1, g: 1, b: 2, a: 1}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendColor: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ContrastMidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _CylinderMatrix0: {r: 0, g: 0, b: 0, a: 0}
     - _CylinderMatrix1: {r: 0, g: 0, b: 0, a: 0}
     - _CylinderMatrix2: {r: 0, g: 0, b: 0, a: 0}
@@ -331,7 +340,8 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _UI_MainTex_ST: {r: 1, g: 1, b: 0.8, a: 0}
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
+    - _VertexOffset_MaskMap_Vec: {r: 0, g: 0, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []

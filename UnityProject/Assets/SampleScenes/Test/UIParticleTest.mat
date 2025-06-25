@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: UIParticleTest
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
@@ -20,6 +22,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -115,6 +118,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VertexOffset_MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -132,10 +139,11 @@ Material:
     - _W9ParticleCustomDataFlag0: 15
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
+    - _W9ParticleCustomDataFlag3: 0
     - _W9ParticleShaderFlags: 131080
     - _W9ParticleShaderFlags1: 8388608
     - _W9ParticleShaderGUIFoldToggle: 31
-    - _W9ParticleShaderGUIFoldToggle1: 254
+    - _W9ParticleShaderGUIFoldToggle1: 8388862
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
     - _AlphaAll: 1
@@ -255,6 +263,7 @@ Material:
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
+    - _VertexOffset_Mask_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
     - _VertexOffset_StartFromZero: 0
     - _VertexOffset_Toggle: 0
@@ -314,11 +323,13 @@ Material:
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
+    - _ParallaxMapping_Vec: {r: 5, g: 30, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
+    - _VertexOffset_MaskMap_Vec: {r: 0, g: 0, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5525987628796004673

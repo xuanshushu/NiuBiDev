@@ -22,8 +22,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: AnimationSheet
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FLIPBOOKBLENDING_ON
   - _MASKMAP_ON
@@ -37,7 +35,6 @@ Material:
   disabledShaderPasses:
   - MOTIONVECTORS
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -133,6 +130,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VertexOffset_MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -150,10 +151,11 @@ Material:
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 251658240
+    - _W9ParticleCustomDataFlag3: 0
     - _W9ParticleShaderFlags: 131080
-    - _W9ParticleShaderFlags1: 8388608
+    - _W9ParticleShaderFlags1: 25165824
     - _W9ParticleShaderGUIFoldToggle: -2147481473
-    - _W9ParticleShaderGUIFoldToggle1: 14680319
+    - _W9ParticleShaderGUIFoldToggle1: 98566399
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
     - _AddPrecomputedVelocity: 0
@@ -164,6 +166,7 @@ Material:
     - _BackFristPassToggle: 0
     - _BaseBackColor_Toggle: 0
     - _BaseColorIntensityForTimeline: 1
+    - _BaseMapColorRefine_Toggle: 0
     - _BaseMapUVRotation: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -178,8 +181,8 @@ Material:
     - _ColorBlendMap_Toggle: 0
     - _ColorMask: 15
     - _ColorMode: 0
-    - _Contrast: 1
-    - _Contrast_Toggle: 0
+    - _Contrast: 0
+    - _Contrast_Toggle: 1
     - _Cull: 2
     - _CustomData: 0
     - _CustomData1W_HueShift_Toggle: 0
@@ -278,6 +281,7 @@ Material:
     - _UIEffect_Toggle: 0
     - _UTwirlEnabled: 0
     - _UseUV1_Toggle: 0
+    - _VertexOffset_Mask_Toggle: 0
     - _VertexOffset_NormalDir_Toggle: 0
     - _VertexOffset_StartFromZero: 0
     - _VertexOffset_Toggle: 0
@@ -298,12 +302,14 @@ Material:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseMapColorRefine: {r: 1, g: 1, b: 2, a: 1}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendColor: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ContrastMidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _CylinderMatrix0: {r: 0, g: 0, b: 0, a: 0}
     - _CylinderMatrix1: {r: 0, g: 0, b: 0, a: 0}
     - _CylinderMatrix2: {r: 0, g: 0, b: 0, a: 0}
@@ -337,10 +343,12 @@ Material:
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
+    - _ParallaxMapping_Vec: {r: 5, g: 30, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
+    - _VertexOffset_MaskMap_Vec: {r: 0, g: 0, b: 1, a: 0}
     - _VertexOffset_Vec: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
