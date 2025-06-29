@@ -14,6 +14,8 @@ Material:
   m_ValidKeywords:
   - _FX_LIGHT_MODE_PBR
   - _NORMALMAP
+  - _SOFTPARTICLES_ON
+  - _SPECULAR_COLOR
   m_InvalidKeywords:
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
@@ -146,9 +148,9 @@ Material:
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
     - _W9ParticleCustomDataFlag3: 0
-    - _W9ParticleShaderFlags: 264196
+    - _W9ParticleShaderFlags: 262148
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 134217759
+    - _W9ParticleShaderGUIFoldToggle: 134234143
     - _W9ParticleShaderGUIFoldToggle1: 947917055
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
@@ -163,8 +165,9 @@ Material:
     - _BaseMapUVRotation: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlinnPhongSpecularToggle: 1
     - _BumpMapFollowMainTexUVToggle: 0
-    - _BumpScale: 1.06
+    - _BumpScale: 0
     - _BumpTexFollowMainTexUVToggle: 0
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
@@ -262,7 +265,7 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
-    - _SoftParticlesEnabled: 0
+    - _SoftParticlesEnabled: 1
     - _SpecSource: 0
     - _SpecialUVChannelMode: 0
     - _SpecularHighlights: 1
@@ -291,7 +294,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _fogintensity: 1
-    - _fresnelEnabled: 1
+    - _fresnelEnabled: 0
     - _jingxiangCH_dire: 0
     - _noiseMaskMap_Toggle: 0
     - _noisemapEnabled: 0
@@ -300,7 +303,7 @@ Material:
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapColorRefine: {r: 1, g: 1, b: 2, a: 1}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
@@ -337,15 +340,18 @@ Material:
     - _FresnelUnit: {r: -0.777, g: 3.49, b: 1, a: 0}
     - _InspectorData: {r: 1, g: 1, b: 0, a: 0}
     - _IntersectColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LightInfo: {r: 1, g: 1, b: 0, a: 0}
     - _MainTex_Reverse_ST: {r: 1, g: 1, b: 0, a: 0}
     - _MaskMap3OffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapOffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
+    - _MaterialInfo: {r: 0, g: 0.792, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
     - _ParallaxMapping_Vec: {r: 5, g: 30, b: 0, a: 0}
-    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 0, g: 0.55, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 630.3456, g: 8.919969, b: 8.919969, a: 1}
     - _TWParameter: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _UI_MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _VertexOffset_CustomDir: {r: 1, g: 1, b: 1, a: 0}
