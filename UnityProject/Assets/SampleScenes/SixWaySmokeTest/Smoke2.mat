@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Smoke1
+  m_Name: Smoke2
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -131,11 +131,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RigLBtF:
-        m_Texture: {fileID: 2800000, guid: 95f44d21e73bf0a49b216ed84eda9921, type: 3}
+        m_Texture: {fileID: 2800000, guid: 54fc415dcfef9d24d80d66bab07675de, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RigRTBk:
-        m_Texture: {fileID: 2800000, guid: 02a95ae6246e86940a7c38b8f1e49e16, type: 3}
+        m_Texture: {fileID: 2800000, guid: cce685f9c1381b648a8cd8cd30965f20, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SixWayEmissionRamp:
@@ -322,7 +322,7 @@ Material:
     - _uvRapSoft: 0
     m_Colors:
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1.4980392, g: 0, b: 0.040666997, a: 1}
+    - _BaseColor: {r: 1, g: 0, b: 0.056943893, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _BaseMapColorRefine: {r: 1, g: 1, b: 2, a: 1}
     - _BaseMapMaskMapOffset: {r: 0, g: 0, b: 0, a: 0}
@@ -368,7 +368,7 @@ Material:
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
     - _ParallaxMapping_Vec: {r: 5, g: 30, b: 0, a: 0}
     - _SixWayEmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SixWayInfo: {r: 0.5, g: 1, b: 0, a: 0}
+    - _SixWayInfo: {r: 0, g: 1, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0.5, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
