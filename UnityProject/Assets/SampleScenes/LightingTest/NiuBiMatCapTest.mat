@@ -9,10 +9,9 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: NiuBiMatCapTest
   m_Shader: {fileID: 4800000, guid: 7184a95c20fc1a441a8815af4c795ccd, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FX_LIGHT_MODE_PBR
+  - _MATCAP
   - _NORMALMAP
   - _SOFTPARTICLES_ON
   - _SPECULAR_COLOR
@@ -26,7 +25,6 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -91,6 +89,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MatCapTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -160,9 +162,10 @@ Material:
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
     - _W9ParticleCustomDataFlag3: 0
+    - _W9ParticleShaderColorChannelFlag: 0
     - _W9ParticleShaderFlags: 262148
     - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 134234143
+    - _W9ParticleShaderGUIFoldToggle: 145768479
     - _W9ParticleShaderGUIFoldToggle1: 947917055
     - _W9ParticleShaderWrapFlags: 0
     m_Floats:
@@ -179,6 +182,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlinnPhongSpecularToggle: 1
     - _BumpMapFollowMainTexUVToggle: 0
+    - _BumpMapToggle: 1
     - _BumpScale: 0
     - _BumpTexFollowMainTexUVToggle: 0
     - _CameraFadingEnabled: 0
@@ -256,6 +260,7 @@ Material:
     - _MaskMapUVRotation: 0
     - _Mask_RotationToggle: 0
     - _Mask_Toggle: 0
+    - _MatCapToggle: 1
     - _MeshSourceMode: 0
     - _Metallic: 0
     - _Mode: 0
@@ -274,6 +279,7 @@ Material:
     - _Saturability: 0
     - _ScreenDistortModeToggle: 0
     - _Shininess: 0
+    - _SixWayColorAbsorptionToggle: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
@@ -357,6 +363,8 @@ Material:
     - _MaskMap3OffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapOffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
+    - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MatCapInfo: {r: 1, g: 0, b: 0, a: 0}
     - _MaterialInfo: {r: 0, g: 1, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
