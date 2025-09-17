@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - _FX_LIGHT_MODE_UNLIT
   m_InvalidKeywords:
-  - _CUSTOMDATA
   - _CUSTOMDATA_OFF
   - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
@@ -24,6 +23,8 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
+  - NBCameraOpaqueDistortPass
+  - NBDeferredDistortPass
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -120,6 +121,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RigLBtF:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -157,17 +162,22 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints:
+    - _DissolveRampCount: 2
+    - _MaskMap2GradientCount: 2
+    - _MaskMap3GradientCount: 2
+    - _MaskMapGradientCount: 2
+    - _RampColorCount: 2
     - _UVModeFlag0: 0
     - _W9ParticleCustomDataFlag0: 0
     - _W9ParticleCustomDataFlag1: 0
     - _W9ParticleCustomDataFlag2: 0
     - _W9ParticleCustomDataFlag3: 0
     - _W9ParticleShaderColorChannelFlag: 0
-    - _W9ParticleShaderFlags: 8
-    - _W9ParticleShaderFlags1: 8388608
-    - _W9ParticleShaderGUIFoldToggle: 23
-    - _W9ParticleShaderGUIFoldToggle1: 255
-    - _W9ParticleShaderGUIFoldToggle2: 255
+    - _W9ParticleShaderFlags: 8202
+    - _W9ParticleShaderFlags1: 2359296
+    - _W9ParticleShaderGUIFoldToggle: 7
+    - _W9ParticleShaderGUIFoldToggle1: 0
+    - _W9ParticleShaderGUIFoldToggle2: 0
     - _W9ParticleShaderWrapFlags: 1
     m_Floats:
     - _AdditiveToPreMultiplyAlphaLerp: 0
@@ -180,9 +190,11 @@ Material:
     - _BaseColorIntensityForTimeline: 1
     - _BaseMapColorRefine_Toggle: 0
     - _BaseMapUVRotation: 90
+    - _BaseMapUVRotationSpeed: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlinnPhongSpecularToggle: 0
+    - _BumpMapMaskMode: 0
     - _BumpMapToggle: 0
     - _BumpScale: 1
     - _BumpTexFollowMainTexUVToggle: 0
@@ -193,6 +205,8 @@ Material:
     - _ChangeSaturability_Toggle: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorBlendAlphaMultiplyMode: 0
+    - _ColorBlendFollowMainTexUV: 0
     - _ColorBlendMap_Toggle: 0
     - _ColorMask: 15
     - _ColorMode: 0
@@ -217,12 +231,17 @@ Material:
     - _DepthOutline_Toggle: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DisableMainPassToggle: 0
+    - _DissolveLineMaskToggle: 0
     - _DissolveMask_Toggle: 0
+    - _DissolveRampColorBlendMode: 0
+    - _DissolveRampSourceMode: 0
     - _DissolveVoronoi_Toggle: 0
     - _Dissolve_Test_Toggle: 0
     - _Dissolve_Toggle: 0
     - _Dissolve_useRampMap_Toggle: 0
     - _DistanceFade_Toggle: 0
+    - _DistortMode: 0
     - _DistortionBothDirection_Toggle: 0
     - _Distortion_Choraticaberrat_Toggle: 0
     - _Distortion_Choraticaberrat_WithNoise_Toggle: 1
@@ -231,6 +250,7 @@ Material:
     - _EdgeFade: 0.05
     - _Emi_Distortion_intensity: 0
     - _EmissionEnabled: 0
+    - _EmissionFollowMainTexUV: 0
     - _EmissionMapColorIntensity: 1
     - _EmissionMapUVRotation: 0
     - _EmissionSelfAlphaWeight: 0
@@ -239,6 +259,7 @@ Material:
     - _FlipbookMode: 0
     - _ForceZWriteToggle: 0
     - _FrePower: 0.5
+    - _FresnelColorAffectByAlpha: 1
     - _FresnelFadeDistance: 1
     - _FresnelInOutSlider: 1
     - _FresnelMode: 0
@@ -256,14 +277,19 @@ Material:
     - _Mask2_Toggle: 0
     - _Mask3_Toggle: 0
     - _MaskDistortion_intensity: 0
+    - _MaskMap2GradientToggle: 0
+    - _MaskMap3GradientToggle: 0
+    - _MaskMapGradientToggle: 0
     - _MaskMapRotationSpeed: 0
     - _MaskMapUVRotation: 0
+    - _MaskRefineToggle: 0
     - _Mask_RotationToggle: 0
     - _Mask_Toggle: 0
     - _MatCapToggle: 0
-    - _MeshSourceMode: 0
+    - _MeshSourceMode: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NoiseIntensity: 1
     - _NoiseMapUVRotation: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -275,8 +301,17 @@ Material:
     - _Portal_Toggle: 0
     - _QueueBias: 0
     - _QueueOffset: 0
+    - _RampColorBlendMode: 0
+    - _RampColorSourceMode: 0
+    - _RampColorToggle: 0
     - _ReceiveShadows: 1
+    - _RefractionIOR: 1.5
     - _Saturability: 0
+    - _ScreenDistortAlphaAdd: 0
+    - _ScreenDistortAlphaMulti: 1
+    - _ScreenDistortAlphaPow: 1
+    - _ScreenDistortAlphaRefineToggle: 0
+    - _ScreenDistortIntensity: 1
     - _ScreenDistortModeToggle: 0
     - _SixWayColorAbsorptionToggle: 0
     - _Smoothness: 0.5
@@ -319,6 +354,15 @@ Material:
     - _offsetUnits: 0
     - _uvRapSoft: 0
     m_Colors:
+    - AlphaAllRangeVec: {r: 0, g: 1, b: 0, a: 0}
+    - BumpScaleRangeVec: {r: -1, g: 1, b: 0, a: 0}
+    - Dissolve2XRangeVec: {r: 0, g: 1, b: 0, a: 0}
+    - Dissolve2YRangeVec: {r: 0, g: 1, b: 0, a: 0}
+    - DissolveXRangeVec: {r: -1, g: 2, b: 0, a: 0}
+    - EmiDistortionIntensityRangeVec: {r: -1, g: 1, b: 0, a: 0}
+    - MaskDistortionIntensityRangeVec: {r: -2, g: 2, b: 0, a: 0}
+    - SaturabilityRangeVec: {r: 0, g: 1, b: 0, a: 0}
+    - TexDistortionintensityRangeVec: {r: -1, g: 1, b: 0, a: 0}
     - _BaseBackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 102.755745, g: 102.755745, b: 102.755745, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
@@ -329,6 +373,7 @@ Material:
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendColor: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBlendMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorBlendVec: {r: 0, g: 0, b: 1, a: 0}
     - _ContrastMidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _CylinderMatrix0: {r: 0, g: 0, b: 0, a: 0}
     - _CylinderMatrix1: {r: 0, g: 0, b: 0, a: 0}
@@ -341,7 +386,16 @@ Material:
     - _Dissolve: {r: 0.5, g: 0.1, b: 1, a: 0.1}
     - _DissolveLineColor: {r: 0, g: 0, b: 0, a: 1}
     - _DissolveOffsetRotateDistort: {r: 0, g: 0, b: 0, a: 0}
+    - _DissolveRampAlpha0: {r: 1, g: 0, b: 1, a: 1}
+    - _DissolveRampAlpha1: {r: 1, g: 0, b: 1, a: 1}
+    - _DissolveRampAlpha2: {r: 1, g: 0, b: 1, a: 1}
     - _DissolveRampColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveRampColor0: {r: 1, g: 0, b: 0, a: 0}
+    - _DissolveRampColor1: {r: 0, g: 0, b: 0, a: 1}
+    - _DissolveRampColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveRampColor3: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveRampColor4: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveRampColor5: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveVoronoi_Vec: {r: 1, g: 1, b: 2, a: 2}
     - _DissolveVoronoi_Vec2: {r: 1, g: 1, b: 2, a: 2}
     - _DissolveVoronoi_Vec3: {r: 0, g: 0, b: 0, a: 0}
@@ -358,15 +412,38 @@ Material:
     - _InspectorData: {r: 1, g: 1, b: 0, a: 0}
     - _IntersectColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainTex_Reverse_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _MaskMap2GradientFloat0: {r: 0, g: 0, b: 1, a: 1}
+    - _MaskMap2GradientFloat1: {r: 1, g: 0, b: 1, a: 1}
+    - _MaskMap2GradientFloat2: {r: 1, g: 0, b: 1, a: 1}
+    - _MaskMap3GradientFloat0: {r: 0, g: 0, b: 1, a: 1}
+    - _MaskMap3GradientFloat1: {r: 1, g: 0, b: 1, a: 1}
+    - _MaskMap3GradientFloat2: {r: 1, g: 0, b: 1, a: 1}
     - _MaskMap3OffsetAnition: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskMapGradientFloat0: {r: 0, g: 0, b: 1, a: 1}
+    - _MaskMapGradientFloat1: {r: 1, g: 0, b: 1, a: 1}
+    - _MaskMapGradientFloat2: {r: 1, g: 0, b: 1, a: 1}
     - _MaskMapOffsetAnition: {r: 0, g: 0, b: 0, a: 0}
     - _MaskMapVec: {r: 1, g: 0, b: 0, a: 0}
+    - _MaskRefineVec: {r: 1, g: 1, b: 0, a: 0}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _MatCapInfo: {r: 1, g: 0, b: 0, a: 0}
     - _MaterialInfo: {r: 1, g: 1, b: 0, a: 0}
+    - _NoiseIntensityRangeVec: {r: 0, g: 1, b: 0, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _PCCenter: {r: 0.5, g: 0.5, b: 1, a: 0}
     - _ParallaxMapping_Vec: {r: 5, g: 30, b: 0, a: 0}
+    - _RampColor0: {r: 1, g: 1, b: 1, a: 0}
+    - _RampColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColor3: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColor4: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColor5: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColorAlpha0: {r: 1, g: 0, b: 1, a: 1}
+    - _RampColorAlpha1: {r: 1, g: 0, b: 1, a: 1}
+    - _RampColorAlpha2: {r: 1, g: 0, b: 1, a: 1}
+    - _RampColorBlendColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColorMapOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ScreenDistortIntensityRangeVec: {r: 0, g: 1, b: 0, a: 0}
     - _SixWayEmissionColor: {r: 1, g: 0.5, b: 0, a: 1}
     - _SixWayInfo: {r: 0.5, g: 0, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0.5, b: 0, a: 0}

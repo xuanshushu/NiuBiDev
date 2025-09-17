@@ -1,0 +1,386 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 9
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Character_M_Brownesh_AsianMan_01a
+  m_Shader: {fileID: -6465566751694194690, guid: 09e7c51e0627f4c4ab2da0783139df03, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_VertexAttributePackingFlag: 3
+  m_VertexSkinningFlag: 3
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _HAIR_SHADOW
+  - _MASKMAP
+  - _NORMALMAP
+  - _ONESIDELIGHT_ON
+  - _PXGRAYFORALPHA_ON
+  - _PXSWAYONOFF_ON
+  - _STSWAYONLY_ON
+  - _TRANSPARENTSHADOW_ON
+  - _USE_FLOWMAP
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  m_RenderingUsageMask: 0
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: b4a192cd7520ff94c920b9908cad408c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsCutoffMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsOffsetMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsOffsetMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FresnelMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlitterMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HairShadowMap:
+        m_Texture: {fileID: 2800000, guid: db526e760bce73048b43b68be556ae2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MECHA_TopTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MECHA_TransformerBoxNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _McMainNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _McMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _McMatcapMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _McVertexOffsetMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MudBaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MudNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PxPixelTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PxSwayMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionCube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondUvBaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StNoiseMap01:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StNoiseMap02:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaClip: 0
+    - _AoContrast: 0.248
+    - _Blend: 0
+    - _CastShadows: 1
+    - _ColorRangeControl: 2
+    - _ColorStrength: 0.5
+    - _Cull: 0
+    - _Cutoff: 1
+    - _CutoffHairVertexColor: 0
+    - _DSFresnel: 0
+    - _DSFresnelBias: 1
+    - _DSFresnelIntensity: 5
+    - _DSFresnelScale: 1
+    - _DecompresseWeightsAndIndicesOn: 0
+    - _Depth: 0.5
+    - _DepthNormalFlatten: 0
+    - _DepthOn: 0
+    - _DetailScale: 1
+    - _DetailTiling: 1
+    - _DsCUspeed: 0
+    - _DsCVspeed: 0
+    - _DsCollapseOffset: 0
+    - _DsCutoffSpeed: 1
+    - _DsEdge: 0
+    - _DsEnd: 0
+    - _DsIsDither: 0
+    - _DsMUspeed: 0
+    - _DsMVspeed: 0
+    - _DsOUspeed: 0.1
+    - _DsOVspeed: 0
+    - _DsOffsetIntensity: 0.1
+    - _DsOffsetMaskPow: 1
+    - _DsStart: 0
+    - _DsTargetWeights: 0
+    - _DsTeleport: 0
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
+    - _DummyEndingProperty: 0
+    - _EdgePower: 10
+    - _EdgeRange: 5
+    - _EdgeTiling: 0.15
+    - _Emission: 0
+    - _EmissionBreathing: 0
+    - _EmissionBreathingFrequency: 0
+    - _EmissionBreathingMinIntensity: 0
+    - _EmissionColorTimesAlbedo: 0
+    - _EmissionDaytimeIntensity: 1
+    - _EmissionNoise: 0
+    - _EnableAlphaAdditive: 0
+    - _EnableTintMask: 0
+    - _FogFactor: 0
+    - _Frenel: 0
+    - _FresnelAlpha: 1
+    - _FresnelIntensityForIriDep: 0
+    - _FresnelModelPow: 1
+    - _FresnelOn: 0
+    - _FresnelPow: 1
+    - _FresnelUseMask: 1
+    - _FresnelUseNormalMap: 1
+    - _GlitterMetalic: 0.1
+    - _GlitterPower: 1
+    - _GlitterRoughness: 0.1
+    - _GlitterSpeed: 0
+    - _GlitterTiling: 0.15
+    - _HairZTest: 2
+    - _HeightRadio: 0
+    - _HueMax: 1
+    - _HueMin: 0
+    - _InvisibilityOn: 0
+    - _InvisibilityProcedure: 0
+    - _IridescenceSpecular: 0
+    - _IridesceneB: 1
+    - _IridesceneG: 1
+    - _IridesceneR: 1
+    - _IridesceneSaturation: 1
+    - _IsAddtive: 0
+    - _IsAlphaPreMultiply: 0
+    - _MECHA_FresnelPower: 1
+    - _MECHA_GlitchMixAmp: 1
+    - _MECHA_Rotation: 0
+    - _MECHA_Timeline: 0
+    - _MECHA_TransformerAmplitude: 1
+    - _MECHA_TwistY: 0
+    - _MECHA_TwistYOffset: 0
+    - _MECHA_VertexScale: 1
+    - _MECHA_WrapPartRatio: 1
+    - _McAlpha: 0
+    - _McEdgeness: 1
+    - _McFresnel: 1
+    - _McFresnelBias: 0
+    - _McMatcapPow: 1
+    - _McMatcapUseSourceNormal: 0
+    - _McNormalScale: 1
+    - _McUpwardThreshold: 1
+    - _McUspeed: 0
+    - _McVertexOffset: 0
+    - _McVspeed: 0
+    - _Metallic: 0
+    - _MetallicStrength: 0.5
+    - _MudON: 0
+    - _MudOffset: 1
+    - _MudSoftness: 5
+    - _Mud_MaskOffset: 0
+    - _Mud_MaskSoftness: 1
+    - _NoiseIntensity: 0
+    - _NoiseSpeed: 1
+    - _NoiseTiling: 1
+    - _NormalScale: 1
+    - _NormalTransformIntensity: 0
+    - _NormalTransformOn: 0
+    - _OcclusionRemapMax: 1
+    - _OcclusionRemapMin: 0
+    - _OnDistanceFade: 0
+    - _OnEdgeMask: 0
+    - _OnRandomColor: 0
+    - _OnSecondUvBaseMap: 0
+    - _OneSideLight: 1
+    - _OutLineWidth: 1
+    - _OutlineExtendDir: 0
+    - _OutlineStencil: 251
+    - _OutlineStencilReadMask: 12
+    - _OutlineZTest: 4
+    - _PickColorAIntensity: 0
+    - _PickColorBIntensity: 0
+    - _PickColorCIntensity: 0
+    - _PickGradingColorIntensity: 0
+    - _PxGrayForAlpha: 1
+    - _PxMorePixelDetail: 2
+    - _PxPixelColorAlpha: 1
+    - _PxPixelTexSample: 66
+    - _PxSwayByTeleport: 0
+    - _PxSwayFromMiddle: 0
+    - _PxSwayOnOff: 1
+    - _PxSwayOnly: 0
+    - _PxSwayPower: 2
+    - _PxSwaySample: 15
+    - _PxSwaySpeed: 1
+    - _PxSwayTeleport: 0
+    - _QueueOffset: 0
+    - _RainIntensity: 0
+    - _RainNormalTiling: 0.1
+    - _RainON: 0
+    - _RainSpeed: 0.1
+    - _RainTiling: 0.1
+    - _RandomValueVariation: 0.5
+    - _Roughness: 0.565
+    - _RoughnessRemapMax: 1
+    - _RoughnessRemapMin: 0
+    - _Saturation: 0.5
+    - _SelfShadowBias: 0
+    - _ShadowCutOffIntensity: 1
+    - _SnowON: 0
+    - _SnowOffset: 1
+    - _SnowSoftness: 5
+    - _Snow_MaskOffset: 0
+    - _Snow_MaskSoftness: 1
+    - _SpecularColorOn: 0
+    - _SpecularLevel: 0.5
+    - _SrcBlend: 5
+    - _SrcBlendAlpha: 0
+    - _StAlpha: 1
+    - _StFresnel: 1
+    - _StFresnelBreath: 0
+    - _StMaskOff: 0
+    - _StSwayFrequency: 1
+    - _StSwayOnly: 1
+    - _StSwayPower: 2
+    - _StSwaySpeed: 1
+    - _StSwayWithFresnel: 0
+    - _StUVDir: 0
+    - _StUseUV: 0
+    - _StUtiling: 1
+    - _StVtiling: 1
+    - _Stencil: 250
+    - _StencilComp: 0
+    - _StencilModel: 232
+    - _StencilReadMask: 255
+    - _Surface: 2
+    - _TangentXYRotate: 1
+    - _TangentZShiftA: 0.018
+    - _TangentZShiftB: -0.081
+    - _TimeStamp: 0
+    - _TransparentShadow: 1
+    - _TransparentZWrite: 0
+    - _UDirection: 1
+    - _UVNoiseOn: 0
+    - _UseDither: 0
+    - _VDirection: 1
+    - _WaterPlaneHeight: 0
+    - _WeatherWetness: 0
+    - _ZOffset: 0
+    - _ZTest: 4
+    - _ZTestOpaque: 3
+    - _ZWrite: 1
+    - _ZWriteOpaque: 0
+    - __Dissolve_Enabled: 0
+    - __FullMatcap_Enabled: 0
+    - __Glitter_Enabled: 0
+    - __IridescenceDepth_Enabled: 0
+    - __Mecha_Enabled: 0
+    - __Pixelization_Enabled: 0
+    - __Scroll_Enabled: 0
+    - __VertexSkin_Enabled: 0
+    m_Colors:
+    - _BaseColor: {r: 0.34, g: 0.31085715, b: 0.30114284, a: 1}
+    - _DSFresnelColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DsEdgeColor: {r: 0, g: 0, b: 0, a: 0}
+    - _DsPosOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _DsTargetOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _EdgeNoiseTiling: {r: 1000, g: 1000, b: 300, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor2ForIriDep: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColorForIriDep: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelMaskObjDir: {r: 1, g: 0, b: 0, a: 0}
+    - _FresnelMask_UVScroll: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelModelScale: {r: 1, g: 1, b: 1, a: 0}
+    - _GlitterColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HairGradingColor: {r: 1, g: 0, b: 0, a: 1}
+    - _HairPickColorA: {r: 0.16409636, g: 1, b: 0, a: 1}
+    - _HairPickColorB: {r: 0, g: 0.12898159, b: 1, a: 1}
+    - _HairPickColorC: {r: 0.18823522, g: 0.13333324, b: 0.13333324, a: 1}
+    - _MECHA_FresnelColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MECHA_LineColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MECHA_ModelCenterOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _MECHA_PartitionEdgeColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MECHA_WrapPartColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MatId_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _McFresnelColor: {r: 0, g: 0, b: 0, a: 0}
+    - _McMainColor: {r: 0, g: 0, b: 0, a: 0}
+    - _MicroAlbedoCavityColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ModelScale: {r: 1, g: 1, b: 1, a: 1}
+    - _OutLineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _PxMainPhase: {r: 0.1, g: -0.03, b: -0.04, a: 0.07}
+    - _PxPixelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _PxSwayColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ScatteringColor: {r: 1, g: 0, b: 0, a: 0}
+    - _SecondBaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpaceDir: {r: 0, g: 1, b: 0, a: 0}
+    - _StFresnelColor: {r: 0, g: 0, b: 0, a: 0}
+    - _StTintColor: {r: 1, g: 1, b: 1, a: 0}
+    - _StUVScroll: {r: 0, g: 0, b: 0, a: 0}
+    - _TexScaleOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _TipColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+  m_BuildTextureStacks: []

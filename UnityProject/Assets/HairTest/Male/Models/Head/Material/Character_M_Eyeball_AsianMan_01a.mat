@@ -1,0 +1,331 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 9
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Character_M_Eyeball_AsianMan_01a
+  m_Shader: {fileID: -6465566751694194690, guid: da666c0582c80134b82a1a6ff30f98bd, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_VertexAttributePackingFlag: 3
+  m_VertexSkinningFlag: 3
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _STSWAYONLY_ON
+  - _VATMODE_FLUID
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  m_RenderingUsageMask: 0
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 543badc4cd1427b46be511dfc77d903c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisplacementMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsCutoffMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsOffsetMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DsOffsetMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EnvFushionNoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _JitterIntensityMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LocalAOVolume:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMap:
+        m_Texture: {fileID: 2800000, guid: 97fc7131a7af2bd42987997ac63b7a16, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MicroShadowMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseStretchMap1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 456d636b0100c884a88041fe99ecbbc6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SkinLUT:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StNoiseMap01:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StNoiseMap02:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VATColorRamp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VATColorTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VATNormalRotTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VATPostionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VATWindWaveNoiseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AdditionalLightShadows: 0
+    - _Alpha: 1
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BlurWeight: 0.5
+    - _ClipCosSita: -1
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DITHER: 0
+    - _DSFresnel: 0
+    - _DSFresnelBias: 1
+    - _DSFresnelIntensity: 5
+    - _DSFresnelScale: 1
+    - _DecompresseWeightsAndIndicesOn: 0
+    - _DepthScale: 0.3
+    - _DisableDirecionalShadowDepthBias: 0
+    - _DisableDirecionalShadowNormalBias: 0
+    - _DisplacementScale: 0
+    - _DitherDistanceStrength: 0
+    - _DitherMinFadePercent: 0
+    - _DsCUspeed: 0
+    - _DsCVspeed: 0
+    - _DsCollapseOffset: 0
+    - _DsCutoffSpeed: 1
+    - _DsEdge: 0
+    - _DsEnd: 0
+    - _DsIsDither: 0
+    - _DsMUspeed: 0
+    - _DsMVspeed: 0
+    - _DsOUspeed: 0.1
+    - _DsOVspeed: 0
+    - _DsOffsetIntensity: 0.1
+    - _DsOffsetMaskPow: 1
+    - _DsStart: 0
+    - _DsTargetWeights: 0
+    - _DsTeleport: 0
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _DummyEndingProperty: 0
+    - _Emission: 0
+    - _EmissionBreathing: 0
+    - _EmissionBreathingFrequency: 0
+    - _EmissionBreathingMinIntensity: 0
+    - _EmissionDaytimeIntensity: 1
+    - _EmissionIntensityFromMROAlpha: 0
+    - _EnvFushionOn: 0
+    - _FogFactor: 0
+    - _GrayForAlpha: 0
+    - _HistoryWeight: 0.8
+    - _InvisibilityOn: 0
+    - _InvisibilityProcedure: 0
+    - _IrisUVRadius: 0.39
+    - _IsAddtive: 0
+    - _IsAlphaPreMultiply: 0
+    - _JitterIntensity: 0.1
+    - _Metallic: 0
+    - _MoistureRoughness: 0
+    - _MotionVectorOn: 0
+    - _NoiseTriplanarContrast: 1
+    - _NormalScale: 1
+    - _OcclusionOffset: -0.17
+    - _OcclusionRadius: 0.866
+    - _OcclusionRemapMax: 1
+    - _OcclusionRemapMin: 0
+    - _OutLineWidth: 1
+    - _OutlineExtendDir: 0
+    - _OutlineStencil: 251
+    - _OutlineStencilReadMask: 12
+    - _OutlineZTest: 4
+    - _PupilScale: 0.575
+    - _QueueOffset: 0
+    - _RecieveShadowOff: 0
+    - _Roughness: 0.5
+    - _RoughnessRemapMax: 1
+    - _RoughnessRemapMin: 0
+    - _SINGLE_CHANNEL_COLOR: 0
+    - _SelfShadowBias: 0
+    - _SingleChanneAO: 1
+    - _SoftDistance: 0.5
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _StAlpha: 1
+    - _StFresnel: 1
+    - _StFresnelBreath: 0
+    - _StMaskOff: 0
+    - _StSwayFrequency: 1
+    - _StSwayOnly: 1
+    - _StSwayPower: 2
+    - _StSwaySpeed: 1
+    - _StSwayWithFresnel: 0
+    - _StUVDir: 0
+    - _StUseUV: 0
+    - _StUtiling: 1
+    - _StVtiling: 1
+    - _Stencil: 0
+    - _StencilComp: 0
+    - _StencilMode: 224
+    - _StencilReadMask: 255
+    - _Surface: 0
+    - _TimeStamp: 0
+    - _TintWithAlbedoAlpha: 0
+    - _USE_PIXEL_ADDITION_LIGHTING: 0
+    - _UseVertexColor: 0
+    - _VATColorTexIsEmission: 0
+    - _VATMaxFrame: 60
+    - _VATMode: 0
+    - _VATPackedNormal: 0
+    - _VATProceduralTime: 0
+    - _VATSpeed: 0
+    - _VATTimeOffset: 0
+    - _VATUseColorRamp: 0
+    - _VATUseProceduralTime: 0
+    - _WindRotateIntensity: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - __Dissolve_Enabled: 0
+    - __EnvFushion_Enabled: 0
+    - __GeometricDistortion_Enabled: 0
+    - __KaleidoScope_Enabled: 0
+    - __LocalAO_Enabled: 0
+    - __NoiseStretch_Enabled: 0
+    - __Scroll_Enabled: 0
+    - __TransparentTemporalBlur_Enabled: 0
+    - __VAT_Enabled: 0
+    - __VFXSetup_Enabled: 0
+    - __VertexSkin_Enabled: 0
+    - _fushionHeightMaskRange: 1
+    - _fushionSphereMaskPos: 0
+    - _fushionSphereMaskRange: 0.5
+    - _isMirrorCopy: 1
+    - _isTest: 0
+    - _moistureHeightMaskRange: 1
+    - _moistureSphereMaskPos: 0
+    - _moistureSphereMaskRange: 0.5
+    - ageOffset: 0
+    - ageSize: 0
+    - aliveOffset: 0
+    - aliveSize: 0
+    - alphaOffset: 0
+    - alphaSize: 0
+    - angleXOffset: 0
+    - angleXSize: 0
+    - angleYOffset: 0
+    - angleYSize: 0
+    - angleZOffset: 0
+    - angleZSize: 0
+    - axisXOffset: 0
+    - axisXSize: 0
+    - axisYOffset: 0
+    - axisYSize: 0
+    - axisZOffset: 0
+    - axisZSize: 0
+    - bufferSize: 0
+    - colorOffset: 0
+    - colorSize: 0
+    - lifetimeOffset: 0
+    - lifetimeSize: 0
+    - particlePerStripCount: 0
+    - pivotXOffset: 0
+    - pivotXSize: 0
+    - pivotYOffset: 0
+    - pivotYSize: 0
+    - pivotZOffset: 0
+    - pivotZSize: 0
+    - positionOffset: 0
+    - positionSize: 0
+    - scaleXOffset: 0
+    - scaleXSize: 0
+    - scaleYOffset: 0
+    - scaleYSize: 0
+    - scaleZOffset: 0
+    - scaleZSize: 0
+    - seedOffset: 0
+    - seedSize: 0
+    - sizeOffset: 0
+    - sizeSize: 0
+    - stripCount: 0
+    - texIndexOffset: 0
+    - texIndexSize: 0
+    - velocityOffset: 0
+    - velocitySize: 0
+    m_Colors:
+    - _BaseColor: {r: 0.8207547, g: 0.44250622, b: 0.33681917, a: 1}
+    - _BaseColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _DSFresnelColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DsEdgeColor: {r: 0, g: 0, b: 0, a: 0}
+    - _DsPosOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _DsTargetOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FushionTexColor: {r: 0.39999998, g: 0.19999996, b: 0.19999996, a: 1}
+    - _IrisColor: {r: 0.8679245, g: 0.7164471, b: 0.7164471, a: 1}
+    - _LRMaskPos: {r: 0, g: 0.1, b: 1, a: 0.1}
+    - _LocalAOBeginOffset: {r: 0, g: 0, b: 0, a: 1}
+    - _LocalAOSize: {r: 1, g: 1, b: 1, a: 1}
+    - _MaskPos: {r: 0, g: 0.1, b: 1, a: 0.1}
+    - _ModelScale: {r: 1, g: 1, b: 1, a: 1}
+    - _MoistureColor: {r: 0.39999998, g: 0.19999996, b: 0.19999996, a: 1}
+    - _NoiseStretchMap1Vec: {r: 0, g: 1, b: 0, a: 0}
+    - _NoiseStretchMap1Vec1: {r: 1, g: 1, b: 1, a: 0}
+    - _OutLineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RadiusClipMatrix0: {r: 1, g: 0, b: 0, a: 0}
+    - _RadiusClipMatrix1: {r: 0, g: 1, b: 0, a: 0}
+    - _RadiusClipMatrix2: {r: 0, g: 0, b: 1, a: 0}
+    - _RadiusClipMatrix3: {r: 0, g: 0, b: 0, a: 1}
+    - _ScatteringColor: {r: 1, g: 0, b: 0, a: 0}
+    - _ScleraBrightColor: {r: 0.6765753, g: 0.72163874, b: 0.7924528, a: 1}
+    - _SpaceDir: {r: 0, g: 1, b: 0, a: 0}
+    - _StFresnelColor: {r: 0, g: 0, b: 0, a: 0}
+    - _StTintColor: {r: 1, g: 1, b: 1, a: 0}
+    - _StUVScroll: {r: 0, g: 0, b: 0, a: 0}
+    - _TexScaleOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _UVOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _UVSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _VATColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _VATParams: {r: 0, g: 0, b: 1, a: 1}
+    - _VATParams1: {r: 0, g: 0, b: 1, a: 1}
+    - flipBookSize: {r: 4, g: 4, b: 0, a: 0}
+  m_BuildTextureStacks: []
