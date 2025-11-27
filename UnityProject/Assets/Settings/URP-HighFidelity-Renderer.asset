@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   downSampling: 1
-  disturbanceLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!114 &-3181556772320452868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,9 +28,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   downSampling: 1
-  disturbanceLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
