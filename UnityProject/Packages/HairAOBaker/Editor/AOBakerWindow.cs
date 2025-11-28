@@ -8,6 +8,8 @@ public class AOBakerWindow : EditorWindow
     /// 要烘焙的 Mesh（这里先直接用 Mesh 资产，你也可以改成 MeshFilter / SkinnedMeshRenderer）
     /// </summary>
     [SerializeField]
+    private Renderer targetMeshRenderer;
+    
     private Mesh targetMesh;
 
     private enum UVChannel
@@ -34,7 +36,7 @@ public class AOBakerWindow : EditorWindow
     /// 输出贴图（Texture2D 资产）
     /// </summary>
     [SerializeField]
-    private Texture2D outputTexture;
+    private Texture2D userSelectedTexture;
 
     /// <summary>
     /// 输出贴图在工程里的路径（Assets/...）
@@ -47,15 +49,29 @@ public class AOBakerWindow : EditorWindow
         var window = GetWindow<AOBakerWindow>("AO Baker");
         window.Show();
     }
+    
+    private ComputeShader aoBakeCS;
 
     private void OnGUI()
     {
         EditorGUILayout.LabelField("AO Baker", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
+        EditorGUI.BeginChangeCheck();
         // 选择 Mesh
-        targetMesh = (Mesh)EditorGUILayout.ObjectField("Mesh", targetMesh, typeof(Mesh), false);
-
+        targetMeshRenderer = (Renderer)EditorGUILayout.ObjectField("Mesh", targetMeshRenderer, typeof(Renderer), true);
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (targetMeshRenderer is MeshRenderer mr)
+            {
+                targetMesh = mr.gameObject.GetComponent<MeshFilter>().sharedMesh;
+            }
+            else if (targetMeshRenderer is SkinnedMeshRenderer smr)
+            {
+                targetMesh = smr.sharedMesh;
+            }
+        }
+        
         EditorGUILayout.Space();
 
         // 主贴图 UV 通道
@@ -71,7 +87,7 @@ public class AOBakerWindow : EditorWindow
         // 输出贴图的 Object + 浏览按钮
         EditorGUILayout.LabelField("Output Texture", EditorStyles.boldLabel);
 
-        outputTexture = (Texture2D)EditorGUILayout.ObjectField("Texture Asset", outputTexture, typeof(Texture2D), false);
+        userSelectedTexture = (Texture2D)EditorGUILayout.ObjectField("Texture Asset", userSelectedTexture, typeof(Texture2D), false);
 
         // 显示当前路径
         if (!string.IsNullOrEmpty(outputTexturePath))
@@ -91,27 +107,74 @@ public class AOBakerWindow : EditorWindow
         }
     }
 
-    /// <summary>
-    /// 根据路径尝试加载已有贴图；没有的话新建一个 Texture2D 资产，并记录 path
-    /// </summary>
-    private void CreateOrLoadTextureAtPath(string path)
+    private Texture2D bakeTexture;
+
+    void EnsureBakeTexture(int size)
     {
+        if (bakeTexture == null ||
+            bakeTexture.width != size ||
+            bakeTexture.height != size)
+        {
+            bakeTexture = new Texture2D(size, size, TextureFormat.RGBA32, false, true);
+            bakeTexture.name = "AOBaker_Temp";
+        }
+    }
+    
+    
+    /// <summary>
+    /// 确保我们有一个合法的 TGA 输出路径：
+    /// - 如果用户拖了一个 TGA 贴图进来，就用这张图对应的文件路径；
+    /// - 否则弹出保存窗口，让用户选择/创建一个新的 TGA 文件。
+    /// 返回 true 表示已经准备好 outputTexturePath 和 outputTexture。
+    /// </summary>
+    private bool EnsureOutputPathAndTexture()
+    {
+        int size = (int)targetResolution;
+
+        // 1）用户在面板上拖了一个 Texture2D 进来
+        if (userSelectedTexture != null)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(userSelectedTexture);
+            if (!string.IsNullOrEmpty(assetPath))
+            {
+                string ext = Path.GetExtension(assetPath).ToLowerInvariant();
+                if (ext == ".tga")
+                {
+                    // 将 Assets 相对路径转换为绝对路径，后面用 File.WriteAllBytes 覆盖这个文件
+                    string projectRoot = Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length);
+                    string fullPath = Path.Combine(projectRoot, assetPath);
+                    fullPath = fullPath.Replace("\\", "/");
+
+                    outputTexturePath = fullPath;
+                    
+                    return true;
+                }
+            }
+
+            // 有贴图但不是 TGA 或没有 Asset 路径：不合法，走创建新 TGA 的流程
+            Debug.LogWarning("当前拖入的贴图不是 TGA 文件，将重新选择输出路径并创建新的 TGA 文件。");
+        }
+
+        // 2）没有合法的 TGA 贴图 -> 弹出保存面板，让用户选一个 .tga 文件
+        string defaultName = targetMesh != null ? targetMesh.name + "_AO" : "AOTexture";
+
+        string path = EditorUtility.SaveFilePanel(
+            "选择 AO 贴图保存位置（TGA）",
+            Application.dataPath,
+            defaultName,
+            "tga"
+        );
+
+        if (string.IsNullOrEmpty(path))
+        {
+            // 用户取消
+            return false;
+        }
+
+        // 记录路径，并创建一张内存中的临时贴图
         outputTexturePath = path;
 
-        // 先尝试加载已有 Asset
-        outputTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(outputTexturePath);
-        if (outputTexture == null)
-        {
-            // 如果不存在，则新建一个 Texture2D 资产（默认 1024x1024，可后续在窗口加个分辨率选项）
-            var tex = new Texture2D((int)targetResolution, (int)targetResolution, TextureFormat.RGBA32, false, true);
-            tex.name = Path.GetFileNameWithoutExtension(path);
-
-            AssetDatabase.CreateAsset(tex, outputTexturePath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-
-            outputTexture = tex;
-        }
+        return true;
     }
 
     /// <summary>
@@ -121,32 +184,23 @@ public class AOBakerWindow : EditorWindow
     /// </summary>
     private void StartBakeButtonClicked()
     {
-        // 没有指定输出贴图或路径 => 先弹出保存窗口
-        if (outputTexture == null || string.IsNullOrEmpty(outputTexturePath))
+        // 先确保我们有合法的 TGA 路径和一张用于烘焙的临时 Texture2D
+        if (!EnsureOutputPathAndTexture())
         {
-            string defaultName = targetMesh != null ? targetMesh.name + "_AO" : "AOTexture";
-
-            string path = EditorUtility.SaveFilePanelInProject(
-                "选择 AO 贴图保存位置",
-                defaultName,
-                "asset",
-                "请选择 AO 贴图保存的位置（会创建/覆盖一个 Texture2D 资源）"
-            );
-
-            if (string.IsNullOrEmpty(path))
-            {
-                // 用户取消
-                return;
-            }
-
-            CreateOrLoadTextureAtPath(path);
+            // 用户取消了保存对话框
+            return;
         }
 
-        // 到这里一定有有效的 outputTexture 和 outputTexturePath
-        if (outputTexture == null)
+        EnsureBakeTexture((int)targetResolution);
+        
+        if (!aoBakeCS)
         {
-            Debug.LogError("Output texture is null even after path selection.");
-            return;
+            aoBakeCS = AssetDatabase.LoadAssetAtPath<ComputeShader>("Packages/com.xuanxuan.hair_baker/Editor/HairAOBaker.compute");
+            if (!aoBakeCS)
+            {
+                Debug.LogError("找不到 ComputeShader：Packages/com.xuanxuan.hair_baker/Editor/HairAOBaker.compute");
+                return;
+            }
         }
 
         // 真正的烘焙在这里调用
@@ -162,11 +216,10 @@ public class AOBakerWindow : EditorWindow
         int bakeUVIndex = (int)bakeUV;
 
         Debug.LogFormat(
-            "开始 AO 烘焙：\nMesh: {0}\nMainTex UV: {1}\nBake UV: {2}\nOutput: {3}\nPath: {4}",
+            "开始 AO 烘焙：\nMesh: {0}\nMainTex UV: {1}\nBake UV: {2}\nOutput: {3}\n",
             targetMesh != null ? targetMesh.name : "null",
             mainUVIndex + 1,
             bakeUVIndex + 1,
-            outputTexture != null ? outputTexture.name : "null",
             outputTexturePath
         );
 
@@ -179,17 +232,118 @@ public class AOBakerWindow : EditorWindow
         // ===============================================
 
         // 占位测试：把贴图清成灰色，表示“有结果”
-        var pixels = outputTexture.GetPixels32();
-        for (int i = 0; i < pixels.Length; i++)
+        if (DispatchBaker())
         {
-            pixels[i] = new Color32(128, 128, 128, 255);
+            Debug.Log("AO 烘焙完成（当前只是占位填充）。");
+            // EditorUtility.SetDirty(outputTexture);
+            // AssetDatabase.SaveAssets();
         }
-        outputTexture.SetPixels32(pixels);
-        outputTexture.Apply();
 
-        EditorUtility.SetDirty(outputTexture);
-        AssetDatabase.SaveAssets();
 
-        Debug.Log("AO 烘焙完成（当前只是占位填充）。");
+    }
+    
+    
+
+
+    bool DispatchBaker()
+    {
+        
+        
+        Vector3[] normals = targetMesh.normals;
+        if (normals == null || normals.Length == 0)
+        {
+            targetMesh.RecalculateNormals();
+            normals = targetMesh.normals;
+        }
+
+        int vertexCount = normals.Length;
+        if (vertexCount == 0)
+        {
+            Debug.LogError("Mesh 没有顶点。");
+            return false;
+        }
+
+        int bakeUVIndex = (int)bakeUV; // 0: UV, 1: UV2
+        Vector2[] uvs = null;
+        if (bakeUVIndex == 0)
+            uvs = targetMesh.uv;
+        else if (bakeUVIndex == 1)
+            uvs = targetMesh.uv2;
+
+        if (uvs == null || uvs.Length == 0)
+        {
+            Debug.LogError($"Mesh 没有 UV{bakeUVIndex + 1} 数据。");
+            return false;
+        }
+
+        int[] indices = targetMesh.triangles;
+        if (indices == null || indices.Length == 0)
+        {
+            Debug.LogError("Mesh 没有三角形索引。");
+            return false;
+        }
+
+        int triangleCount = indices.Length / 3;
+
+        // === 2. 创建 ComputeBuffer ===
+
+        ComputeBuffer normalBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 3);
+        ComputeBuffer uvBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 2);
+        ComputeBuffer indexBuffer = new ComputeBuffer(indices.Length, sizeof(int));
+
+        normalBuffer.SetData(normals);
+        uvBuffer.SetData(uvs);
+        indexBuffer.SetData(indices);
+
+        // === 3. 创建临时 RenderTexture 作为输出 ===
+
+        int width = (int)targetResolution;
+        int height = (int)targetResolution;
+
+        RenderTexture rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
+        rt.enableRandomWrite = true;
+        rt.Create();
+
+        // 清空 RT
+        Graphics.SetRenderTarget(rt);
+        GL.Clear(true, true, Color.black);
+        Graphics.SetRenderTarget(null);
+
+        // === 4. 设置 ComputeShader 参数并 Dispatch ===
+
+        int kernel = aoBakeCS.FindKernel("HairAOBaker");
+
+        aoBakeCS.SetBuffer(kernel, "_Normals", normalBuffer);
+        aoBakeCS.SetBuffer(kernel, "_UVs", uvBuffer);
+        aoBakeCS.SetBuffer(kernel, "_Indices", indexBuffer);
+
+        aoBakeCS.SetTexture(kernel, "_OutputTex", rt);
+
+        aoBakeCS.SetInt("_TriangleCount", triangleCount);
+        aoBakeCS.SetInts("_TextureSize", new int[] { width, height });
+
+        int threadGroupSize = 64; // 对应 [numthreads(64,1,1)]
+        int dispatchCount = Mathf.CeilToInt(triangleCount / (float)threadGroupSize);
+
+        aoBakeCS.Dispatch(kernel, dispatchCount, 1, 1);
+
+        // === 5. 把 RenderTexture 拷回 Texture2D（内存里的预览） ===
+
+        RenderTexture prev = RenderTexture.active;
+        RenderTexture.active = rt;
+
+
+        bakeTexture.ReadPixels(new Rect(0,0,width,height),0,0);
+        bakeTexture.Apply();
+
+        RenderTexture.active = prev;
+
+// === 6. 把 Texture2D 编码成 TGA 并写到文件 ===
+
+        byte[] bytes = bakeTexture.EncodeToTGA();
+        File.WriteAllBytes(outputTexturePath, bytes);
+        AssetDatabase.Refresh();
+        return true;
+
     }
 }

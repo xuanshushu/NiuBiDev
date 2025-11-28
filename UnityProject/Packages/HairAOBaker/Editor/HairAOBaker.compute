@@ -1,0 +1,121 @@
+// NormalToAO_Raster.compute
+#pragma kernel HairAOBaker
+
+struct VertexData
+{
+    float3 normal;
+    float2 uv;
+};
+
+// 顶点数据
+StructuredBuffer<float3> _Normals;
+StructuredBuffer<float2> _UVs;
+
+// 索引（Mesh.triangles）
+StructuredBuffer<int> _Indices;
+
+// 输出纹理（AO 贴图）
+RWTexture2D<float4> _OutputTex;
+
+// 参数
+int _TriangleCount;
+int2 _TextureSize;   // (width, height)
+
+// 计算三角形在像素坐标系下的包围盒
+void GetTriangleBounds(float2 p0, float2 p1, float2 p2, out int2 minPix, out int2 maxPix)
+{
+    float minX = min(p0.x, min(p1.x, p2.x));
+    float minY = min(p0.y, min(p1.y, p2.y));
+    float maxX = max(p0.x, max(p1.x, p2.x));
+    float maxY = max(p0.y, max(p1.y, p2.y));
+
+    minPix.x = (int)floor(minX);
+    minPix.y = (int)floor(minY);
+    maxPix.x = (int)ceil(maxX);
+    maxPix.y = (int)ceil(maxY);
+
+    minPix = clamp(minPix, int2(0, 0), _TextureSize - 1);
+    maxPix = clamp(maxPix, int2(0, 0), _TextureSize - 1);
+}
+
+// 计算 barycentric 并判断点是否在三角形内部
+bool Barycentric(float2 p, float2 p0, float2 p1, float2 p2, out float3 bary)
+{
+    float2 v0 = p1 - p0;
+    float2 v1 = p2 - p0;
+    float2 v2 = p - p0;
+
+    float denom = v0.x * v1.y - v1.x * v0.y;
+    if (abs(denom) < 1e-8)
+    {
+        bary = float3(-1, -1, -1);
+        return false;
+    }
+
+    float invDenom = 1.0 / denom;
+    float a = (v2.x * v1.y - v1.x * v2.y) * invDenom;
+    float b = (v0.x * v2.y - v2.x * v0.y) * invDenom;
+    float c = 1.0 - a - b;
+
+    bary = float3(a, b, c);
+
+    // 允许一点点负误差
+    if (a >= -1e-4 && b >= -1e-4 && c >= -1e-4)
+        return true;
+    return false;
+}
+
+[numthreads(64, 1, 1)]
+void HairAOBaker(uint3 id : SV_DispatchThreadID)
+{
+    uint triId = id.x;
+    if (triId >= _TriangleCount) return;
+
+    int i0 = _Indices[triId * 3 + 0];
+    int i1 = _Indices[triId * 3 + 1];
+    int i2 = _Indices[triId * 3 + 2];
+
+    float2 uv0 = _UVs[i0];
+    float2 uv1 = _UVs[i1];
+    float2 uv2 = _UVs[i2];
+
+    // 通常 UV 在 [0,1]，这里简单 clamp 一下
+    uv0 = saturate(uv0);
+    uv1 = saturate(uv1);
+    uv2 = saturate(uv2);
+
+    // 转成像素空间坐标（以像素中心为基准）
+    float2 texSize = float2(_TextureSize);
+    float2 p0 = uv0 * texSize;
+    float2 p1 = uv1 * texSize;
+    float2 p2 = uv2 * texSize;
+
+    int2 minPix, maxPix;
+    GetTriangleBounds(p0, p1, p2, minPix, maxPix);
+
+    float3 n0 = normalize(_Normals[i0]);
+    float3 n1 = normalize(_Normals[i1]);
+    float3 n2 = normalize(_Normals[i2]);
+
+    // 遍历包围盒内所有像素
+    for (int y = minPix.y; y <= maxPix.y; y++)
+    {
+        for (int x = minPix.x; x <= maxPix.x; x++)
+        {
+            float2 p = float2(x + 0.5, y + 0.5); // 像素中心
+
+            float3 bary;
+            if (!Barycentric(p, p0, p1, p2, bary))
+                continue;
+
+            // 在三角形内部，插值法线
+            float3 n = normalize(n0 * bary.x + n1 * bary.y + n2 * bary.z);
+
+            // 法线 [-1,1] -> [0,1]
+            float3 n01 = n * 0.5 + 0.5;
+
+            // 简单最后写入为准（大多数情况下 UV 不重叠）
+            _OutputTex[int2(x, y)] = float4(n01, 1.0);
+        }
+    }
+}
