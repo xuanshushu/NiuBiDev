@@ -3,6 +3,49 @@ struct GridCell {
     int count;
 };
 
+uint Hash(uint x)
+{
+    x ^= x >> 16;
+    x *= 0x7feb352d;
+    x ^= x >> 15;
+    x *= 0x846ca68b;
+    x ^= x >> 16;
+    return x;
+}
+
+float Random(uint seed, uint i)
+{
+    return (Hash(seed + i) & 0xFFFFFF) / 16777216.0;
+}
+
+float3 RandomHemisphereDir(float3 normal, uint seed, uint index)
+{
+    float u = Random(seed, index);
+    float v = Random(seed, index + 123);
+
+    float phi = 2.0 * 3.14159265 * u;
+    float cosTheta = sqrt(1.0 - v);
+    float sinTheta = sqrt(v);
+
+    float3 dirLocal = float3(
+        cos(phi) * sinTheta,
+        sin(phi) * sinTheta,
+        cosTheta
+    );
+
+    // 构建正交基
+    float3 up = abs(normal.y) < 0.999 ? float3(0,1,0) : float3(1,0,0);
+    float3 tangent = normalize(cross(up, normal));
+    float3 bitangent = cross(normal, tangent);
+
+    // local → world
+    return normalize(
+        tangent * dirLocal.x +
+        bitangent * dirLocal.y +
+        normal * dirLocal.z
+    );
+}
+
 StructuredBuffer<GridCell> _GridCells;
 StructuredBuffer<int> _GridTriIndices;
 
@@ -24,7 +67,8 @@ struct VertexData
 // 顶点数据
 StructuredBuffer<float3> _VertexNormals;
 StructuredBuffer<float3> _VertexPoses;
-StructuredBuffer<float2> _UVs;
+StructuredBuffer<float2> _BakeUVs; // 用于 raster 到 AO 贴图
+StructuredBuffer<float2> _MainUVs; // 用于 AO 射线 hit 时采样 MainTex
 RWStructuredBuffer<float3> _PixelPoses;    // 每个像素一个WS位置
 RWStructuredBuffer<float3> _PixelNormals; // 每个像素一个WS法线
 RWStructuredBuffer<uint> _PixelValidMask;   // 0 = 无效像素，1 = 有效像素
@@ -92,9 +136,7 @@ int GetPixeIndex(int x,int y)
     return y * _TextureSize.x + x;
 }
 
-bool RayTriangleIntersect(float3 ro, float3 rd, 
-                          float3 v0, float3 v1, float3 v2,
-                          out float t)
+bool RayTriangleIntersect(float3 ro, float3 rd,float3 v0, float3 v1, float3 v2,out float t, out float3 bary)
 {
     float3 e1 = v1 - v0;
     float3 e2 = v2 - v0;
@@ -102,25 +144,45 @@ bool RayTriangleIntersect(float3 ro, float3 rd,
     float3 p = cross(rd, e2);
     float det = dot(e1, p);
 
-    // // 背面剔除（也可以不开）
-    // if (det > -1e-6 && det < 1e-6)
-    //     return false;
+    if (abs(det) < 1e-6)
+    {
+        t = 0;
+        bary = 0;
+        return false;
+    }
 
     float invDet = 1.0 / det;
-
     float3 tvec = ro - v0;
     float u = dot(tvec, p) * invDet;
     if (u < 0.0 || u > 1.0)
+    {
+        t = 0;
+        bary = 0;
         return false;
+    }
 
     float3 q = cross(tvec, e1);
     float v = dot(rd, q) * invDet;
     if (v < 0.0 || u + v > 1.0)
+    {
+        t = 0;
+        bary = 0;
         return false;
+    }
 
     t = dot(e2, q) * invDet;
-    return (t > 1e-6); // 很近的不算
+    if (t <= 1e-6)
+    {
+        bary = 0;
+        return false;
+    }
+
+    float w0 = 1.0 - u - v;
+    bary = float3(w0, u, v); // 对应 v0, v1, v2 的权重
+
+    return true;
 }
+
 
 [numthreads(64, 1, 1)]
 void HairRaster(uint3 id : SV_DispatchThreadID)
@@ -132,9 +194,9 @@ void HairRaster(uint3 id : SV_DispatchThreadID)
     int i1 = _Indices[triId * 3 + 1];
     int i2 = _Indices[triId * 3 + 2];
 
-    float2 uv0 = _UVs[i0];
-    float2 uv1 = _UVs[i1];
-    float2 uv2 = _UVs[i2];
+    float2 uv0 = _BakeUVs[i0];
+    float2 uv1 = _BakeUVs[i1];
+    float2 uv2 = _BakeUVs[i2];
 
     // 通常 UV 在 [0,1]，这里简单 clamp 一下
     uv0 = saturate(uv0);
@@ -187,113 +249,155 @@ void HairRaster(uint3 id : SV_DispatchThreadID)
 #pragma kernel AORayTest
 
 RWTexture2D<float4> _AOOutput; // 输出0~1 AO
-
+// AO 阶段用的主贴图
+Texture2D<float4> _MainTex;
+SamplerState sampler_MainTex;
+int   _UseMainTexAlpha;
+float _MainAlphaThreshold;
+int _RayCount;
+float _RayMaxDistance;
 
 [numthreads(8,8, 1)]
 void AORayTest(uint3 id : SV_DispatchThreadID)
 {
-
     int2 pix = int2(id.x, id.y);
-
     if (pix.x >= _TextureSize.x || pix.y >= _TextureSize.y)
         return;
     
     int pixIdx = pix.y * _TextureSize.x + pix.x;
 
-    float3 ro = _PixelPoses[pixIdx];
-    float3 rd = normalize(_PixelNormals[pixIdx]);
-
-    // 避免自交 → ray origin 稍微往外推一点
-    ro += rd * 0.0001;
-
-    //
-    // Compute starting cell
-    //
-    int3 cell = (int3)((ro - _GridMin) * _GridInvCellSize);
-    cell = clamp(cell, int3(0,0,0), _GridResolution - 1);
-
-    float3 inv = _GridInvCellSize;
-    float3 cellSize = 1.0 / inv;
-
-    int3 step = int3(
-        rd.x > 0 ? 1 : -1,
-        rd.y > 0 ? 1 : -1,
-        rd.z > 0 ? 1 : -1
-    );
-
-    // next boundary in world
-    float3 nextBoundary = _GridMin + (float3(cell + (step>0 ? 1:0)) * cellSize);
-
-    float3 tMax = (nextBoundary - ro) / rd;
-    float3 tDelta = cellSize / abs(rd);
-
-    bool hit = false;
-    float minDist = 1e9;
-
-    // max traversal steps
-    [loop]
-    for (int iter = 0; iter < 128; iter++)
+    float3 basePos = _PixelPoses[pixIdx];
+    float3 baseNormal = normalize(_PixelNormals[pixIdx]);
+    if (_PixelValidMask[pixIdx] == 0)
     {
-        // 1. Flatten index
-        int cellIndex =
-            cell.x +
-            cell.y * _GridResolution.x +
-            cell.z * _GridResolution.x * _GridResolution.y;
+        _AOOutput[pix] = float4(0,0,0,0);
+        return;
+    }
 
-        GridCell gc = _GridCells[cellIndex];
+    uint seed = pixIdx * 9781u; // 每像素不同随机种子
 
-        // 2. Test triangles in this cell
+    float aoAccum = 0.0;
+
+    // ===== 多根射线（RayCount） =====
+    for (uint r = 0; r < _RayCount; r++)
+    {
+        float3 rd = RandomHemisphereDir(baseNormal, seed, r);
+        float3 ro = basePos + rd * 0.0005;
+
+        float3 cellSize = 1.0 / _GridInvCellSize;
+
+        // 初始 cell
+        int3 cell = (int3)((ro - _GridMin) * _GridInvCellSize);
+        cell = clamp(cell, int3(0,0,0), _GridResolution - 1);
+
+        int3 step = int3(rd.x>0?1:-1, rd.y>0?1:-1, rd.z>0?1:-1);
+
+        float3 nextBoundary = _GridMin + (float3(cell + (step>0?1:0)) * cellSize);
+
+        float3 tMax = (nextBoundary - ro) / rd;
+        float3 tDelta = cellSize / abs(rd);
+
+        float minT = _RayMaxDistance;
+        bool hit = false;
+
+        // DDA traverse
         [loop]
-        for (int i = 0; i < gc.count; i++)
+        for (int iter = 0; iter < 128; iter++)
         {
-            int tri = _GridTriIndices[gc.start + i];
+            int cellIndex =
+                cell.x +
+                cell.y * _GridResolution.x +
+                cell.z * _GridResolution.x * _GridResolution.y;
 
-            int i0 = _Indices[tri * 3 + 0];
-            int i1 = _Indices[tri * 3 + 1];
-            int i2 = _Indices[tri * 3 + 2];
+            GridCell gc = _GridCells[cellIndex];
 
-            float3 v0 = _VertexPoses[i0];
-            float3 v1 = _VertexPoses[i1];
-            float3 v2 = _VertexPoses[i2];
-
-            float t;
-            if (RayTriangleIntersect(ro, rd, v0, v1, v2, t))
+            // test triangles
+            [loop]
+            for (int i = 0; i < gc.count; i++)
             {
-                if (t < minDist)
+                int tri = _GridTriIndices[gc.start + i];
+
+                int i0 = _Indices[tri*3+0];
+                int i1 = _Indices[tri*3+1];
+                int i2 = _Indices[tri*3+2];
+
+                float3 v0 = _VertexPoses[i0];
+                float3 v1 = _VertexPoses[i1];
+                float3 v2 = _VertexPoses[i2];
+
+                float t;
+                float3 bary;
+                if (RayTriangleIntersect(ro, rd, v0, v1, v2, t, bary))
                 {
-                    hit = true;
-                    minDist = t;
+                    // 如果使用 MainTex Alpha 测试，就根据交点的 MainUV 去采样 A
+                    if (_UseMainTexAlpha == 1)
+                    {
+                        float2 uv0 = _MainUVs[i0];
+                        float2 uv1 = _MainUVs[i1];
+                        float2 uv2 = _MainUVs[i2];
+
+                        float2 hitUV = uv0 * bary.x + uv1 * bary.y + uv2 * bary.z;
+
+                        float alpha = _MainTex.SampleLevel(sampler_MainTex, hitUV, 0).a;
+
+                        // alpha 太小 → 视为透明，不算 hit，继续找下一个三角形
+                        if (alpha < _MainAlphaThreshold)
+                        {
+                            continue;
+                        }
+                    }
+
+                    // 到这里说明：要么没开 alpha test，要么 alpha >= 阈值
+                    if (t < minT)
+                    {
+                        hit = true;
+                        minT = t;
+                    }
                 }
             }
+
+            // 进入下一个 cell
+            if (tMax.x < tMax.y && tMax.x < tMax.z)
+            {
+                tMax.x += tDelta.x;
+                cell.x += step.x;
+            }
+            else if (tMax.y < tMax.z)
+            {
+                tMax.y += tDelta.y;
+                cell.y += step.y;
+            }
+            else
+            {
+                tMax.z += tDelta.z;
+                cell.z += step.z;
+            }
+
+            // 出界停止
+            if (cell.x < 0 || cell.y < 0 || cell.z < 0 ||
+                cell.x >= _GridResolution.x ||
+                cell.y >= _GridResolution.y ||
+                cell.z >= _GridResolution.z)
+                break;
+
+            if (hit) break; // 早停：这根 ray 已找到最早碰撞
         }
 
-        // 3. Move DDA to next cell
-        if (tMax.x < tMax.y && tMax.x < tMax.z)
+        // ===== distance falloff AO =====
+        if (hit)
         {
-            tMax.x += tDelta.x;
-            cell.x += step.x;
-        }
-        else if (tMax.y < tMax.z)
-        {
-            tMax.y += tDelta.y;
-            cell.y += step.y;
+            // float ao = 1.0 - saturate(minT / _RayMaxDistance);
+            // aoAccum += ao;
         }
         else
         {
-            tMax.z += tDelta.z;
-            cell.z += step.z;
+            aoAccum += 1.0;
         }
-
-        // 4. Out of grid?
-        if (cell.x < 0 || cell.y < 0 || cell.z < 0 ||
-            cell.x >= _GridResolution.x ||
-            cell.y >= _GridResolution.y ||
-            cell.z >= _GridResolution.z)
-            break;
     }
 
-    // 简单 AO：只要命中 → 黑，不命中 → 白
-    _AOOutput[pix] = hit ? float4(0,0,0,1) : float4(1,1,1,1);
+    float finalAO = aoAccum / _RayCount;
+
+    _AOOutput[pix] = float4(finalAO, finalAO, finalAO, 1);
 }
 
 // 扩边 kernel：从 Source 读，往 Dest 写

@@ -5,9 +5,13 @@ using System.Collections.Generic;
 
 public class AOBakerWindow : EditorWindow
 {
-    /// <summary>
-    /// 要烘焙的 Mesh（这里先直接用 Mesh 资产，你也可以改成 MeshFilter / SkinnedMeshRenderer）
-    /// </summary>
+    
+    [SerializeField, Range(1, 256)]
+    private int rayCount = 64;            // 每像素射线数量（默认 64）
+
+    [SerializeField]
+    private float rayMaxDistance = 1.0f;  // AO 最大距离（世界空间）
+    
     [SerializeField]
     private Renderer targetMeshRenderer;
     
@@ -31,7 +35,16 @@ public class AOBakerWindow : EditorWindow
     [SerializeField]
     private UVChannel bakeUV = UVChannel.UV1;      // 烘焙 AO 使用的 UV
     
+    [SerializeField]
+    private Texture2D mainTexture;          // 用户提供的主贴图（有 Alpha）
+
+    [SerializeField, Range(0f, 1f)]
+    private float mainAlphaThreshold = 0.5f; // A 通道阈值
+
+    
     private TextureResolution targetResolution = TextureResolution.X1024;
+    
+    
 
     /// <summary>
     /// 输出贴图（Texture2D 资产）
@@ -57,6 +70,11 @@ public class AOBakerWindow : EditorWindow
     {
         EditorGUILayout.LabelField("AO Baker", EditorStyles.boldLabel);
         EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField("AO Settings", EditorStyles.boldLabel);
+        rayCount = EditorGUILayout.IntSlider("Ray Count", rayCount, 1, 256);
+        rayMaxDistance = EditorGUILayout.FloatField("Max Ray Distance", rayMaxDistance);
+        EditorGUILayout.Space();
 
         EditorGUI.BeginChangeCheck();
         // 选择 Mesh
@@ -77,6 +95,13 @@ public class AOBakerWindow : EditorWindow
 
         // 主贴图 UV 通道
         mainTexUV = (UVChannel)EditorGUILayout.EnumPopup("Main Tex UV", mainTexUV);
+        
+        // 主贴图与 Alpha 阈值
+        EditorGUILayout.LabelField("Main Texture (for alpha test)", EditorStyles.boldLabel);
+        mainTexture = (Texture2D)EditorGUILayout.ObjectField("Main Texture", mainTexture, typeof(Texture2D), false);
+        mainAlphaThreshold = EditorGUILayout.Slider("Main Alpha Threshold", mainAlphaThreshold, 0f, 1f);
+
+        EditorGUILayout.Space();
 
         // 烘焙 UV 通道
         bakeUV = (UVChannel)EditorGUILayout.EnumPopup("Bake UV", bakeUV);
@@ -383,17 +408,32 @@ public class AOBakerWindow : EditorWindow
             return false;
         }
 
-        int bakeUVIndex = (int)bakeUV; // 0: UV, 1: UV2
-        Vector2[] uvs = null;
-        if (bakeUVIndex == 0)
-            uvs = targetMesh.uv;
-        else if (bakeUVIndex == 1)
-            uvs = targetMesh.uv2;
+        int bakeUVIndex = (int)bakeUV;      // 用于烘焙 AO 贴图的 UV（raster）
+        int mainUVIndex = (int)mainTexUV;   // 用于采样 MainTex 的 UV（ray hit）
 
-        if (uvs == null || uvs.Length == 0)
+        Vector2[] bakeUVs = null;
+        Vector2[] mainUVs = null;
+
+        // Bake UV
+        if (bakeUVIndex == 0)
+            bakeUVs = targetMesh.uv;
+        else if (bakeUVIndex == 1)
+            bakeUVs = targetMesh.uv2;
+
+        // Main UV
+        if (mainUVIndex == 0)
+            mainUVs = targetMesh.uv;
+        else if (mainUVIndex == 1)
+            mainUVs = targetMesh.uv2;
+
+        if (bakeUVs == null || bakeUVs.Length == 0)
         {
-            Debug.LogError($"Mesh 没有 UV{bakeUVIndex + 1} 数据。");
+            Debug.LogError($"Mesh 没有 UV{bakeUVIndex + 1} 数据（用于 Bake）。");
             return false;
+        }
+        if (mainUVs == null || mainUVs.Length == 0)
+        {
+            Debug.LogWarning($"Mesh 没有 UV{mainUVIndex + 1} 数据（用于 MainTex 采样），将不使用 Alpha Test。");
         }
 
         int[] indices = targetMesh.triangles;
@@ -411,12 +451,18 @@ public class AOBakerWindow : EditorWindow
         // === 2. 创建 ComputeBuffer ===
 
         ComputeBuffer normalBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 3);
-        ComputeBuffer uvBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 2);
+        ComputeBuffer bakeUVBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 2);
         ComputeBuffer indexBuffer = new ComputeBuffer(indices.Length, sizeof(int));
         ComputeBuffer positionBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 3);
+        ComputeBuffer mainUVBuffer = null;
+        if (mainUVs != null && mainUVs.Length == vertexCount)
+        {
+            mainUVBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 2);
+            mainUVBuffer.SetData(mainUVs);
+        }
 
         normalBuffer.SetData(normals);
-        uvBuffer.SetData(uvs);
+        bakeUVBuffer.SetData(bakeUVs);
         indexBuffer.SetData(indices);
         positionBuffer.SetData(vertices);
 
@@ -443,9 +489,12 @@ public class AOBakerWindow : EditorWindow
         aoBakeCS.SetInts("_TextureSize", new int[] { width, height });
         aoBakeCS.SetInt("_TriangleCount", triangleCount);
         
+        aoBakeCS.SetInt("_RayCount", rayCount);
+        aoBakeCS.SetFloat("_RayMaxDistance", rayMaxDistance);
+        
         aoBakeCS.SetBuffer(rasterKernel, "_VertexNormals", normalBuffer);
         aoBakeCS.SetBuffer(rasterKernel, "_VertexPoses", positionBuffer);
-        aoBakeCS.SetBuffer(rasterKernel, "_UVs", uvBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_BakeUVs", bakeUVBuffer);
         aoBakeCS.SetBuffer(rasterKernel, "_Indices", indexBuffer);
 
 
@@ -470,8 +519,22 @@ public class AOBakerWindow : EditorWindow
         aoBakeCS.SetBuffer(aoRayTestKernel, "_GridCells", gridCellBuffer);
         aoBakeCS.SetBuffer(aoRayTestKernel, "_GridTriIndices", gridTriIndexBuffer);
         
+        
         aoBakeCS.SetBuffer(aoRayTestKernel, "_VertexPoses", positionBuffer);
-        aoBakeCS.SetBuffer(aoRayTestKernel, "_UVs", uvBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_BakeUVs", bakeUVBuffer);
+        if (mainUVBuffer != null)
+            aoBakeCS.SetBuffer(aoRayTestKernel, "_MainUVs", mainUVBuffer);
+        // MainTex alpha test 开关 + 阈值
+        if (mainTexture != null && mainUVBuffer != null)
+        {
+            aoBakeCS.SetTexture(aoRayTestKernel, "_MainTex", mainTexture);
+            aoBakeCS.SetInt("_UseMainTexAlpha", 1);
+        }
+        else
+        {
+            aoBakeCS.SetInt("_UseMainTexAlpha", 0);
+        }
+        aoBakeCS.SetFloat("_MainAlphaThreshold", mainAlphaThreshold);
         aoBakeCS.SetBuffer(aoRayTestKernel, "_Indices", indexBuffer);
         aoBakeCS.SetBuffer(aoRayTestKernel, "_PixelPoses", pixelPosesBuffer);
         aoBakeCS.SetBuffer(aoRayTestKernel, "_PixelNormals", pixelNormalsBuffer);
@@ -536,7 +599,8 @@ public class AOBakerWindow : EditorWindow
         // === 8. 清理 ===
 
         normalBuffer.Release();
-        uvBuffer.Release();
+        bakeUVBuffer.Release();
+        if (mainUVBuffer != null) mainUVBuffer.Release();
         indexBuffer.Release();
         rtMain.Release();
         rtB.Release();
