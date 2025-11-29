@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Collections.Generic;
 
 public class AOBakerWindow : EditorWindow
 {
@@ -242,17 +243,136 @@ public class AOBakerWindow : EditorWindow
 
     }
     
+    // ===== Uniform Grid Buffers =====
+    ComputeBuffer gridCellBuffer;       // each cell: start + count
+    ComputeBuffer gridTriIndexBuffer;   // flattened triangle list
     
+    struct GridCell
+    {
+        public int start;
+        public int count;
+    }
+
+    struct GridInfo
+    {
+        public Vector3 min;
+        public Vector3 invCellSize;
+        public Vector3Int res;
+    }
+    
+    Vector3Int WorldToCell(Vector3 p, Vector3 min, Vector3 invCellSize, Vector3Int res)
+    {
+        Vector3 f = p - min;
+        int x = Mathf.Clamp((int)(f.x * invCellSize.x), 0, res.x - 1);
+        int y = Mathf.Clamp((int)(f.y * invCellSize.y), 0, res.y - 1);
+        int z = Mathf.Clamp((int)(f.z * invCellSize.z), 0, res.z - 1);
+        return new Vector3Int(x,y,z);
+    }
+
+    GridInfo BuildUniformGrid(Vector3[] verticesWS, int[] indices)
+    {
+        // 1. Compute AABB
+        Bounds bounds = new Bounds(verticesWS[0], Vector3.zero);
+        for (int i = 1; i < verticesWS.Length; i++)
+            bounds.Encapsulate(verticesWS[i]);
+
+        Vector3 min = bounds.min;
+        Vector3 size = bounds.size;
+
+        // 2. Grid resolution
+        int gridSize = 32; // can expose to UI later
+        Vector3Int gridRes = new Vector3Int(gridSize, gridSize, gridSize);
+
+        // 3. Compute voxel size
+        Vector3 cellSize = size / gridSize;
+        Vector3 invCellSize = new Vector3(
+            1f / cellSize.x,
+            1f / cellSize.y,
+            1f / cellSize.z
+        );
+
+        int totalCells = gridSize * gridSize * gridSize;
+
+        // 4. Allocate list for each cell
+        List<int>[] cellTris = new List<int>[totalCells];
+        for (int i = 0; i < totalCells; i++)
+            cellTris[i] = new List<int>();
+
+        // 5. For each triangle, find which cells it touches
+        int triCount = indices.Length / 3;
+
+        for (int t = 0; t < triCount; t++)
+        {
+            int i0 = indices[t * 3 + 0];
+            int i1 = indices[t * 3 + 1];
+            int i2 = indices[t * 3 + 2];
+
+            Vector3 p0 = verticesWS[i0];
+            Vector3 p1 = verticesWS[i1];
+            Vector3 p2 = verticesWS[i2];
+
+            // Triangle AABB
+            Vector3 triMin = Vector3.Min(p0, Vector3.Min(p1, p2));
+            Vector3 triMax = Vector3.Max(p0, Vector3.Max(p1, p2));
+
+            Vector3Int cMin = WorldToCell(triMin, min, invCellSize, gridRes);
+            Vector3Int cMax = WorldToCell(triMax, min, invCellSize, gridRes);
+
+            for (int z = cMin.z; z <= cMax.z; z++)
+            for (int y = cMin.y; y <= cMax.y; y++)
+            for (int x = cMin.x; x <= cMax.x; x++)
+            {
+                int cellIndex = x + y * gridRes.x + z * gridRes.x * gridRes.y;
+                cellTris[cellIndex].Add(t);
+            }
+        }
+
+        // 6. Flatten tri lists
+        List<int> flat = new List<int>();
+        GridCell[] gridCells = new GridCell[totalCells];
+
+        int offset = 0;
+        for (int c = 0; c < totalCells; c++)
+        {
+            gridCells[c].start = offset;
+            gridCells[c].count = cellTris[c].Count;
+            flat.AddRange(cellTris[c]);
+            offset += cellTris[c].Count;
+        }
+
+        // 7. Upload buffer
+
+        gridCellBuffer?.Release();
+        gridTriIndexBuffer?.Release();
+
+        gridCellBuffer = new ComputeBuffer(totalCells, sizeof(int) * 2);
+        gridTriIndexBuffer = new ComputeBuffer(flat.Count, sizeof(int));
+
+        gridCellBuffer.SetData(gridCells);
+        gridTriIndexBuffer.SetData(flat.ToArray());
+
+        GridInfo info = new GridInfo
+        {
+            min = min,
+            invCellSize = invCellSize,
+            res = gridRes
+        };
+        return info;
+
+    }
+
+
 
 
     bool DispatchBaker()
     {
         
         
+        Vector3[] vertices = targetMesh.vertices;
         Vector3[] normals = targetMesh.normals;
+        targetMesh.RecalculateNormals();
         if (normals == null || normals.Length == 0)
         {
-            targetMesh.RecalculateNormals();
             normals = targetMesh.normals;
         }
 
@@ -282,55 +402,123 @@ public class AOBakerWindow : EditorWindow
             Debug.LogError("Mesh 没有三角形索引。");
             return false;
         }
+        
 
         int triangleCount = indices.Length / 3;
+        
+
 
         // === 2. 创建 ComputeBuffer ===
 
         ComputeBuffer normalBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 3);
         ComputeBuffer uvBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 2);
         ComputeBuffer indexBuffer = new ComputeBuffer(indices.Length, sizeof(int));
+        ComputeBuffer positionBuffer = new ComputeBuffer(vertexCount, sizeof(float) * 3);
 
         normalBuffer.SetData(normals);
         uvBuffer.SetData(uvs);
         indexBuffer.SetData(indices);
+        positionBuffer.SetData(vertices);
 
         // === 3. 创建临时 RenderTexture 作为输出 ===
 
         int width = (int)targetResolution;
         int height = (int)targetResolution;
 
-        RenderTexture rt = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
-        rt.enableRandomWrite = true;
-        rt.Create();
+        RenderTexture rtMain = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32,RenderTextureReadWrite.Linear);
+        rtMain.enableRandomWrite = true;
+        rtMain.Create();
 
         // 清空 RT
-        Graphics.SetRenderTarget(rt);
-        GL.Clear(true, true, Color.black);
+        Graphics.SetRenderTarget(rtMain);
+        GL.Clear(true, true, new Color(0,0,0,0));
         Graphics.SetRenderTarget(null);
 
         // === 4. 设置 ComputeShader 参数并 Dispatch ===
 
-        int kernel = aoBakeCS.FindKernel("HairAOBaker");
+        int rasterKernel = aoBakeCS.FindKernel("HairRaster");
+        int aoRayTestKernel = aoBakeCS.FindKernel("AORayTest");
+        int textureDilateKernel = aoBakeCS.FindKernel("HairTextureDilate");
 
-        aoBakeCS.SetBuffer(kernel, "_Normals", normalBuffer);
-        aoBakeCS.SetBuffer(kernel, "_UVs", uvBuffer);
-        aoBakeCS.SetBuffer(kernel, "_Indices", indexBuffer);
-
-        aoBakeCS.SetTexture(kernel, "_OutputTex", rt);
-
-        aoBakeCS.SetInt("_TriangleCount", triangleCount);
         aoBakeCS.SetInts("_TextureSize", new int[] { width, height });
+        aoBakeCS.SetInt("_TriangleCount", triangleCount);
+        
+        aoBakeCS.SetBuffer(rasterKernel, "_VertexNormals", normalBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_VertexPoses", positionBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_UVs", uvBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_Indices", indexBuffer);
 
+
+        
+        
+        int pixelCount = width * height;
+        ComputeBuffer pixelPosesBuffer = new ComputeBuffer(pixelCount, sizeof(float) * 3);
+        ComputeBuffer pixelNormalsBuffer = new ComputeBuffer(pixelCount, sizeof(float) * 3);
+        ComputeBuffer pixelValidMaskBuffer = new ComputeBuffer(pixelCount, sizeof(uint));
+        aoBakeCS.SetBuffer(rasterKernel, "_PixelPoses", pixelPosesBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_PixelNormals", pixelNormalsBuffer);
+        aoBakeCS.SetBuffer(rasterKernel, "_PixelValidMask", pixelValidMaskBuffer);
+        
         int threadGroupSize = 64; // 对应 [numthreads(64,1,1)]
         int dispatchCount = Mathf.CeilToInt(triangleCount / (float)threadGroupSize);
+        aoBakeCS.Dispatch(rasterKernel, dispatchCount, 1, 1);
+        
+        GridInfo info = BuildUniformGrid(vertices,indices);
+        aoBakeCS.SetVector("_GridMin", info.min);
+        aoBakeCS.SetVector("_GridInvCellSize", info.invCellSize);
+        aoBakeCS.SetInts("_GridResolution", info.res.x, info.res.y, info.res.z);;
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_GridCells", gridCellBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_GridTriIndices", gridTriIndexBuffer);
+        
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_VertexPoses", positionBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_UVs", uvBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_Indices", indexBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_PixelPoses", pixelPosesBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_PixelNormals", pixelNormalsBuffer);
+        aoBakeCS.SetBuffer(aoRayTestKernel, "_PixelValidMask", pixelValidMaskBuffer);
+        aoBakeCS.SetTexture(aoRayTestKernel,"_AOOutput",rtMain);
+        
+        int groupX = Mathf.CeilToInt(width / 8.0f);
+        int groupY = Mathf.CeilToInt(height / 8.0f);
+        aoBakeCS.Dispatch(aoRayTestKernel, groupX, groupY, 1);
 
-        aoBakeCS.Dispatch(kernel, dispatchCount, 1, 1);
+        
+        
+        // === 5. 扩边：用两个 RT ping-pong 几次 ===
+
+        int dilateIterations = 4;   // 你可以调这个值
+        int dilateRadius     = 1;   // 每次扩 1 像素，迭代 4 次就是大约 4 像素
+        
+        RenderTexture rtA = rtMain;
+        RenderTexture rtB = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32,RenderTextureReadWrite.Linear);
+        rtB.enableRandomWrite = true;
+        rtB.Create();
+        
+        int kernelDilate = aoBakeCS.FindKernel("HairTextureDilate");
+        
+        aoBakeCS.SetInt("_DilateRadius", dilateRadius);
+        
+        
+        for (int i = 0; i < dilateIterations; i++)
+        {
+            // Source 用作只读纹理，Dest 用作可写纹理
+            aoBakeCS.SetTexture(kernelDilate, "_SourceTex", rtA);
+            aoBakeCS.SetTexture(kernelDilate, "_DestTex",   rtB);
+        
+            aoBakeCS.Dispatch(kernelDilate, groupX, groupY, 1);
+        
+            // 交换 rtA / rtB，下一轮继续
+            var tmp = rtA;
+            rtA = rtB;
+            rtB = tmp;
+        }
+
+        RenderTexture finalRT = rtA;
 
         // === 5. 把 RenderTexture 拷回 Texture2D（内存里的预览） ===
 
         RenderTexture prev = RenderTexture.active;
-        RenderTexture.active = rt;
+        RenderTexture.active = finalRT;
 
 
         bakeTexture.ReadPixels(new Rect(0,0,width,height),0,0);
@@ -343,6 +531,19 @@ public class AOBakerWindow : EditorWindow
         byte[] bytes = bakeTexture.EncodeToTGA();
         File.WriteAllBytes(outputTexturePath, bytes);
         AssetDatabase.Refresh();
+        
+        
+        // === 8. 清理 ===
+
+        normalBuffer.Release();
+        uvBuffer.Release();
+        indexBuffer.Release();
+        rtMain.Release();
+        rtB.Release();
+        positionBuffer.Release();
+        pixelPosesBuffer.Release();
+        pixelNormalsBuffer.Release();
+        
         return true;
 
     }

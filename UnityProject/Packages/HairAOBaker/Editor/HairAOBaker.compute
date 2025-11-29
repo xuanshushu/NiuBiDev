@@ -1,5 +1,19 @@
+struct GridCell {
+    int start;
+    int count;
+};
+
+StructuredBuffer<GridCell> _GridCells;
+StructuredBuffer<int> _GridTriIndices;
+
+// 注意：简单起见，GridInfo 用 3 个 buffer 值
+float3 _GridMin;
+float3 _GridInvCellSize;
+int3   _GridResolution;
+
+
 // NormalToAO_Raster.compute
-#pragma kernel HairAOBaker
+#pragma kernel HairRaster
 
 struct VertexData
 {
@@ -8,14 +22,16 @@ struct VertexData
 };
 
 // 顶点数据
-StructuredBuffer<float3> _Normals;
+StructuredBuffer<float3> _VertexNormals;
+StructuredBuffer<float3> _VertexPoses;
 StructuredBuffer<float2> _UVs;
+RWStructuredBuffer<float3> _PixelPoses;    // 每个像素一个WS位置
+RWStructuredBuffer<float3> _PixelNormals; // 每个像素一个WS法线
+RWStructuredBuffer<uint> _PixelValidMask;   // 0 = 无效像素，1 = 有效像素
 
 // 索引（Mesh.triangles）
 StructuredBuffer<int> _Indices;
 
-// 输出纹理（AO 贴图）
-RWTexture2D<float4> _OutputTex;
 
 // 参数
 int _TriangleCount;
@@ -57,16 +73,57 @@ bool Barycentric(float2 p, float2 p0, float2 p1, float2 p2, out float3 bary)
     float b = (v0.x * v2.y - v2.x * v0.y) * invDenom;
     float c = 1.0 - a - b;
 
-    bary = float3(a, b, c);
+    // 显式改成：x=权重0，y=权重1，z=权重2
+    float w0 = c; // p0
+    float w1 = a; // p1
+    float w2 = b; // p2
 
-    // 允许一点点负误差
-    if (a >= -1e-4 && b >= -1e-4 && c >= -1e-4)
+    bary = float3(w0, w1, w2);
+
+    // 略放宽一点边界允许
+    if (w0 >= -1e-4 && w1 >= -1e-4 && w2 >= -1e-4)
         return true;
+    
     return false;
 }
 
+int GetPixeIndex(int x,int y)
+{
+    return y * _TextureSize.x + x;
+}
+
+bool RayTriangleIntersect(float3 ro, float3 rd, 
+                          float3 v0, float3 v1, float3 v2,
+                          out float t)
+{
+    float3 e1 = v1 - v0;
+    float3 e2 = v2 - v0;
+
+    float3 p = cross(rd, e2);
+    float det = dot(e1, p);
+
+    // // 背面剔除（也可以不开）
+    // if (det > -1e-6 && det < 1e-6)
+    //     return false;
+
+    float invDet = 1.0 / det;
+
+    float3 tvec = ro - v0;
+    float u = dot(tvec, p) * invDet;
+    if (u < 0.0 || u > 1.0)
+        return false;
+
+    float3 q = cross(tvec, e1);
+    float v = dot(rd, q) * invDet;
+    if (v < 0.0 || u + v > 1.0)
+        return false;
+
+    t = dot(e2, q) * invDet;
+    return (t > 1e-6); // 很近的不算
+}
+
 [numthreads(64, 1, 1)]
-void HairAOBaker(uint3 id : SV_DispatchThreadID)
+void HairRaster(uint3 id : SV_DispatchThreadID)
 {
     uint triId = id.x;
     if (triId >= _TriangleCount) return;
@@ -93,9 +150,12 @@ void HairAOBaker(uint3 id : SV_DispatchThreadID)
     int2 minPix, maxPix;
     GetTriangleBounds(p0, p1, p2, minPix, maxPix);
 
-    float3 n0 = normalize(_Normals[i0]);
-    float3 n1 = normalize(_Normals[i1]);
-    float3 n2 = normalize(_Normals[i2]);
+    float3 n0 = normalize(_VertexNormals[i0]);
+    float3 n1 = normalize(_VertexNormals[i1]);
+    float3 n2 = normalize(_VertexNormals[i2]);
+    float3 pos0 = _VertexPoses[i0];
+    float3 pos1 = _VertexPoses[i1];
+    float3 pos2 = _VertexPoses[i2];
 
     // 遍历包围盒内所有像素
     for (int y = minPix.y; y <= maxPix.y; y++)
@@ -109,13 +169,193 @@ void HairAOBaker(uint3 id : SV_DispatchThreadID)
                 continue;
 
             // 在三角形内部，插值法线
-            float3 n = normalize(n0 * bary.x + n1 * bary.y + n2 * bary.z);
+            float3 pixelNormals = normalize(n0 * bary.x + n1 * bary.y + n2 * bary.z);
+            float3 pixelPoses = pos0*bary.x + pos1*bary.y + pos2*bary.z;
 
-            // 法线 [-1,1] -> [0,1]
-            float3 n01 = n * 0.5 + 0.5;
+            int pixelIndex = GetPixeIndex(x, y);
+            _PixelNormals[pixelIndex] = pixelNormals;
+            _PixelPoses[pixelIndex] = pixelPoses;
+            _PixelValidMask[pixelIndex] = 1;
 
             // 简单最后写入为准（大多数情况下 UV 不重叠）
-            _OutputTex[int2(x, y)] = float4(n01, 1.0);
+            // _OutputTex[int2(x, y)] = float4(n01, 1.0);
         }
+    }
+}
+
+
+#pragma kernel AORayTest
+
+RWTexture2D<float4> _AOOutput; // 输出0~1 AO
+
+
+[numthreads(8,8, 1)]
+void AORayTest(uint3 id : SV_DispatchThreadID)
+{
+
+    int2 pix = int2(id.x, id.y);
+
+    if (pix.x >= _TextureSize.x || pix.y >= _TextureSize.y)
+        return;
+    
+    int pixIdx = pix.y * _TextureSize.x + pix.x;
+
+    float3 ro = _PixelPoses[pixIdx];
+    float3 rd = normalize(_PixelNormals[pixIdx]);
+
+    // 避免自交 → ray origin 稍微往外推一点
+    ro += rd * 0.0001;
+
+    //
+    // Compute starting cell
+    //
+    int3 cell = (int3)((ro - _GridMin) * _GridInvCellSize);
+    cell = clamp(cell, int3(0,0,0), _GridResolution - 1);
+
+    float3 inv = _GridInvCellSize;
+    float3 cellSize = 1.0 / inv;
+
+    int3 step = int3(
+        rd.x > 0 ? 1 : -1,
+        rd.y > 0 ? 1 : -1,
+        rd.z > 0 ? 1 : -1
+    );
+
+    // next boundary in world
+    float3 nextBoundary = _GridMin + (float3(cell + (step>0 ? 1:0)) * cellSize);
+
+    float3 tMax = (nextBoundary - ro) / rd;
+    float3 tDelta = cellSize / abs(rd);
+
+    bool hit = false;
+    float minDist = 1e9;
+
+    // max traversal steps
+    [loop]
+    for (int iter = 0; iter < 128; iter++)
+    {
+        // 1. Flatten index
+        int cellIndex =
+            cell.x +
+            cell.y * _GridResolution.x +
+            cell.z * _GridResolution.x * _GridResolution.y;
+
+        GridCell gc = _GridCells[cellIndex];
+
+        // 2. Test triangles in this cell
+        [loop]
+        for (int i = 0; i < gc.count; i++)
+        {
+            int tri = _GridTriIndices[gc.start + i];
+
+            int i0 = _Indices[tri * 3 + 0];
+            int i1 = _Indices[tri * 3 + 1];
+            int i2 = _Indices[tri * 3 + 2];
+
+            float3 v0 = _VertexPoses[i0];
+            float3 v1 = _VertexPoses[i1];
+            float3 v2 = _VertexPoses[i2];
+
+            float t;
+            if (RayTriangleIntersect(ro, rd, v0, v1, v2, t))
+            {
+                if (t < minDist)
+                {
+                    hit = true;
+                    minDist = t;
+                }
+            }
+        }
+
+        // 3. Move DDA to next cell
+        if (tMax.x < tMax.y && tMax.x < tMax.z)
+        {
+            tMax.x += tDelta.x;
+            cell.x += step.x;
+        }
+        else if (tMax.y < tMax.z)
+        {
+            tMax.y += tDelta.y;
+            cell.y += step.y;
+        }
+        else
+        {
+            tMax.z += tDelta.z;
+            cell.z += step.z;
+        }
+
+        // 4. Out of grid?
+        if (cell.x < 0 || cell.y < 0 || cell.z < 0 ||
+            cell.x >= _GridResolution.x ||
+            cell.y >= _GridResolution.y ||
+            cell.z >= _GridResolution.z)
+            break;
+    }
+
+    // 简单 AO：只要命中 → 黑，不命中 → 白
+    _AOOutput[pix] = hit ? float4(0,0,0,1) : float4(1,1,1,1);
+}
+
+// 扩边 kernel：从 Source 读，往 Dest 写
+#pragma kernel HairTextureDilate
+
+RWTexture2D<float4> _SourceTex;
+RWTexture2D<float4> _DestTex;
+
+// int2 _TextureSize;
+int  _DilateRadius;   // 扩边半径（像素）
+
+[numthreads(8, 8, 1)]
+void HairTextureDilate(uint3 id : SV_DispatchThreadID)
+{
+    int2 pix = int2(id.x, id.y);
+    if (pix.x >= _TextureSize.x || pix.y >= _TextureSize.y)
+        return;
+
+    float4 src = _SourceTex[pix];
+
+    // 如果本身已经有值（alpha>0），就原样拷贝
+    if (src.a > 0.0)
+    {
+        _DestTex[pix] = src;
+        return;
+    }
+
+    // 否则在邻域内找最近的非空像素
+    float4 acc = float4(0, 0, 0, 0);
+    bool found = false;
+
+    // 简单版本：找到第一个非空就用它
+    // 你也可以改成累加平均（accumulate/average），但没太大必要
+    [loop]
+    for (int dy = -_DilateRadius; dy <= _DilateRadius && !found; dy++)
+    {
+        int yy = pix.y + dy;
+        if (yy < 0 || yy >= _TextureSize.y) continue;
+
+        for (int dx = -_DilateRadius; dx <= _DilateRadius; dx++)
+        {
+            int xx = pix.x + dx;
+            if (xx < 0 || xx >= _TextureSize.x) continue;
+
+            float4 c = _SourceTex[int2(xx, yy)];
+            if (c.a > 0.0)
+            {
+                acc = c;
+                // acc = float4(1,0,0,1);//Test DilateColor
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (found)
+    {
+        _DestTex[pix] = acc;
+    }
+    else
+    {
+        // 邻域内也没找到，就保持空
+        _DestTex[pix] = src;
     }
 }
